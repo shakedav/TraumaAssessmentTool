@@ -62,8 +62,7 @@ export class ApplicationStateStore {
   @computed
   get backText() {
     if (this.step === APPLICATION_STEP.QUESTIONNAIRES
-      && this.questionnairesStore.questionnaireIndex !== 0
-    && this.questionnairesStore.questionnaireIndex !== this.questionnairesStore.cutoffQuestionIndex + 1) {
+      && this.questionnairesStore.questionnaireIndex !== 0) {
       return 'לשאלון הקודם';
     } else {
       return 'לשלב הקודם';
@@ -92,19 +91,20 @@ export class ApplicationStateStore {
 
   skip() {
     if (this.step === APPLICATION_STEP.QUESTIONNAIRES) {
+      const isDangerousSituation = false;
       let randomScore;
       let didPassThreshold;
       if (this.questionnairesStore.currentQuestion.questionnaireType === QuestionnaireTypes.MULTI_DISCRETE_SCALE) {
         randomScore = this.questionnairesStore.currentQuestion.questionnaires?.map((questionnaire) => this._getRandomQuestionScore(questionnaire));
-        didPassThreshold = randomScore.some((score, index) => score >= (this.questionnairesStore.currentQuestion.questionnaires?.[index].threshold ?? 0));
+        didPassThreshold = randomScore.some((score, index) => score >= (this.questionnairesStore.currentQuestion.questionnaires?.[index].minThreshold ?? 0));
       } else if (this.questionnairesStore.currentQuestion.questionnaireType === QuestionnaireTypes.CONDITION_QUESTIONNAIRE) {
         randomScore = this._getRandomQuestionScore(this.questionnairesStore.currentQuestion);
-        didPassThreshold = randomScore >= (this.questionnairesStore.currentQuestion.conditionQuestionnaire?.threshold ?? 0);
+        didPassThreshold = randomScore >= (this.questionnairesStore.currentQuestion.conditionQuestionnaire?.minThreshold ?? 0);
       } else {
         randomScore = this._getRandomQuestionScore(this.questionnairesStore.currentQuestion);
-        didPassThreshold = randomScore >= (this.questionnairesStore.currentQuestion.threshold ?? 0);
+        didPassThreshold = randomScore >= (this.questionnairesStore.currentQuestion.minThreshold ?? 0);
       }
-      this.questionnairesStore.nextQuestion(undefined, didPassThreshold, randomScore);
+      this.questionnairesStore.nextQuestion(undefined, didPassThreshold, isDangerousSituation, randomScore);
     } else {
       this.next();
     }

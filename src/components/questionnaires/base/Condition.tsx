@@ -21,7 +21,7 @@ export const Condition: React.FC<ConditionProps> = observer(({
 
   const [passedCondition, setPassedCondition] = useState<boolean>(false);
   const QuestionnaireComponent = useQuestionnaireComponent(conditionQuestionnaire, initialState, onNextClicked);
-  const onNext = useMemo(() => onNextClicked ? () => onNextClicked(initialState, false, undefined) : undefined, [onNextClicked, initialState]);
+  const onNext = useMemo(() => onNextClicked ? () => onNextClicked(initialState, false, false, undefined) : undefined, [onNextClicked, initialState]);
 
   return (
     <>

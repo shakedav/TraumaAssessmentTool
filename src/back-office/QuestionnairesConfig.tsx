@@ -4,10 +4,8 @@ import { QuestionnaireTypes } from '../data/data.consts';
 import {
   Button,
   Card,
-  Divider,
   Table,
   TableBody,
-  TableCell,
   TableHeader,
   TableHeaderCell,
   TableRow
@@ -49,10 +47,7 @@ export const QuestionnairesConfig: React.FC = observer(() => {
         </TableHeader>
         <TableBody>
           {
-            questions?.map((question) => {
-              if (question.questionnaireType === QuestionnaireTypes.CUT_OFF) {
-                return <TableRow><TableCell><Divider>סוף שלב א</Divider></TableCell></TableRow>;
-              }
+            questions?.map((question) => {            
               if (question.questionnaireType === QuestionnaireTypes.CONDITION_QUESTIONNAIRE) {
                 return <QuestionnaireConfigCell question={question.conditionQuestionnaire}/>
               }

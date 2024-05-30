@@ -8,7 +8,7 @@ import { QuestionnaireContextType } from './QuestionnaireContext';
 export class QuestionnairesStore {
 
   questionnaireIndex: number = 0;
-  questionnaireScores = Array<{ score: number | string; didPassThreshold: boolean; }>(this.questions.length);
+  questionnaireScores = Array<{ score: number | string; didPassThreshold: boolean; isDangerousSituation: boolean; }>(this.questions.length);
   questionnairesStates = Array<unknown>(this.questions.length);
   skippedSecondSection: boolean = false;
 
@@ -35,31 +35,13 @@ export class QuestionnairesStore {
   }
 
   @computed
-  get cutoffQuestionIndex(): number {
-    return _.findIndex(this.questions, { questionnaireType: QuestionnaireTypes.CUT_OFF });
-  }
-
-  @computed
-  get beforeCutoff(): boolean {
-    return this.questionnaireIndex < this.cutoffQuestionIndex;
-  }
-
-  @computed
   get progress(): number {
-    if (this.beforeCutoff) {
-      return this.questionnaireIndex;
-    } else {
-      return this.questionnaireIndex - this.cutoffQuestionIndex - 1;
-    }
+    return this.questionnaireIndex;
   }
 
   @computed
   get maxProgress(): number {
-    if (this.beforeCutoff) {
-      return this.cutoffQuestionIndex;
-    } else {
-      return (this.questions.length - this.cutoffQuestionIndex - 1);
-    }
+    return (this.questions.length);
   }
 
   @computed
@@ -70,19 +52,9 @@ export class QuestionnairesStore {
     }
   }
 
-  @computed
-  get requiresSecondSection(): boolean {
-    if (this.questionnaireIndex < this.cutoffQuestionIndex) {
-      return false;
-    }
-    return this.questionnaireScores.slice(0, this.cutoffQuestionIndex).some(({ didPassThreshold }) => didPassThreshold);
-  }
 
   @computed
   get stepDisplayName() {
-    if (this.currentQuestion.questionnaireType === QuestionnaireTypes.CUT_OFF) {
-      return 'סוף חלק א';
-    }
     return this.currentQuestion?.questionnaire;
   }
 
@@ -91,19 +63,22 @@ export class QuestionnairesStore {
     switch (question.questionnaireType) {
       case QuestionnaireTypes.MIN_MAX_SCALE:
         return {
-          threshold: question.threshold,
+          minThreshold: question.minThreshold,          
+          maxThreshold: question.maxThreshold,
           maxScore: question.max,
           minScore: question.min,
         };
       case QuestionnaireTypes.DISCRETE_SCALE:
         return {
-          threshold: question.threshold,
+          minThreshold: question.minThreshold,
+          maxThreshold: question.maxThreshold,     
           maxScore: _.maxBy(question.answers, 'value').value * subQuestionsCount,
           minScore: _.minBy(question.answers, 'value').value * subQuestionsCount,
         };
       case QuestionnaireTypes.YES_NO:
         return {
-          threshold: question.threshold,
+          minThreshold: question.minThreshold,
+          maxThreshold: question.maxThreshold,
           maxScore: question.questions.length,
           minScore: 0,
         };
@@ -111,7 +86,8 @@ export class QuestionnairesStore {
         return this.getQuestionnaireRange(question.conditionQuestionnaire);
       case QuestionnaireTypes.TRUE_FALSE:
         return {
-          threshold: 1,
+          minThreshold: 1,
+          maxThreshold: 1,
           maxScore: 1,
           minScore: 0,
         };
@@ -126,11 +102,11 @@ export class QuestionnairesStore {
   }
 
   @action
-  nextQuestion(currentState: unknown, didPassThreshold: boolean, score?: number | string) {
+  nextQuestion(currentState: unknown, didPassThreshold: boolean, isDangerousSituation: boolean, score?: number | string) {
     const conditionQuestionFalseAnswer = this._isConditionQuestionWithFalseAnswer(score);
-    if (this.currentQuestion?.questionnaireType !== QuestionnaireTypes.CUT_OFF && !conditionQuestionFalseAnswer) {
+    if (!conditionQuestionFalseAnswer) {
       this.questionnairesStates[this.questionnaireIndex] = currentState;
-      this.questionnaireScores[this.questionnaireIndex] = { score: score ?? 0, didPassThreshold };
+      this.questionnaireScores[this.questionnaireIndex] = { score: score ?? 0, didPassThreshold, isDangerousSituation };
     }
     const finishedAllQuestionnaires = this.questionnaireIndex === this.questions.length - 1;
     if (finishedAllQuestionnaires) {
@@ -138,10 +114,6 @@ export class QuestionnairesStore {
       return;
     }
     this.questionnaireIndex++;
-    if (this.currentQuestion?.questionnaireType === QuestionnaireTypes.CUT_OFF) {
-      this.questionnairesStates[this.questionnaireIndex] =
-        _.some(this.questionnaireScores.slice(0, this.cutoffQuestionIndex), ({ didPassThreshold }) => didPassThreshold);
-    }
   }
 
 

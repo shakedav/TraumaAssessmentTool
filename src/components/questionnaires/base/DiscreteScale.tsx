@@ -4,7 +4,8 @@ import { QuestionnaireBaseProps } from './types';
 import { PagedQuestions } from './PagedQuestions';
 
 export type DiscreteScaleProps = QuestionnaireBaseProps & {
-  threshold: number;
+  minThreshold: number;
+  maxThreshold: number;
   questionTitle: string;
   questions: string[];
   answers: {
@@ -15,7 +16,8 @@ export type DiscreteScaleProps = QuestionnaireBaseProps & {
 
 export const DiscreteScale: React.FC<DiscreteScaleProps> = observer(({
                                                                        initialState,
-                                                                       threshold,
+                                                                       minThreshold,
+                                                                       maxThreshold,
                                                                        questions,
                                                                        answers,
                                                                        questionTitle,
@@ -27,10 +29,11 @@ export const DiscreteScale: React.FC<DiscreteScaleProps> = observer(({
     }
     return (answersValues: number[], forcePassthreshold: boolean = false) => {
       const score = answersValues.reduce((acc, curr) => acc + curr, 0);
-      const didPassThreshold = score >= threshold || forcePassthreshold;
-      onNextClicked?.(answersValues, didPassThreshold, score)
+      const didPassMinThreshold = score >= minThreshold || forcePassthreshold;
+      const isDangerousSituation = score >= maxThreshold 
+      onNextClicked?.(answersValues, didPassMinThreshold, isDangerousSituation, score)
     }
-  }, [onNextClicked, threshold]);
+  }, [onNextClicked, minThreshold, maxThreshold]);
 
   return (
     <PagedQuestions key={questionTitle} questionTitle={questionTitle} questions={questions} answers={answers} onNext={onNext}

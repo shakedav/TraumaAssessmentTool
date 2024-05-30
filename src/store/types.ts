@@ -4,12 +4,14 @@ export type QuestionnairesSummary = ({
   questionnaireType: string;
   score: number | string;
   didPassThreshold: boolean;
+  isDangerousSituation: boolean;
 } & QuestionnaireRange)[];
 
 export type QuestionnaireRange = {
   maxScore: number;
   minScore: number;
-  threshold: number;
+  minThreshold: number;
+  maxThreshold: number;
 }
 
 export const SECOND_STAGE_RESULT_CATEGORY = {

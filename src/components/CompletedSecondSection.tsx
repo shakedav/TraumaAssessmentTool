@@ -24,7 +24,7 @@ export const CompletedSecondSection: React.FC<CompletedSecondSectionProps> = obs
         <StyledText className="margin-bottom-xl">
           <p>
             {
-              'תודה רבה על שהשלמת את שני החלקים של השאלון.\n'
+              'תודה רבה על שהשלמת את השאלון.\n'
             }
           </p>
           <p>

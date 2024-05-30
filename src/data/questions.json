@@ -2,7 +2,8 @@
   {
     "questionnaire": "CGI",
     "questionnaireType": "min-max-scale",
-    "threshold": 6,
+    "minThreshold": 6,
+    "maxThreshold": 7,
     "min": 1,
     "max": 7,
     "minLabel": "כלל לא נורא, די קל",
@@ -11,8 +12,9 @@
   },
   {
     "questionnaire": "K5",
-    "questionnaireType": "discrete-scale",
-    "threshold": 15,
+    "questionnaireType": "discrete-scale",    
+    "minThreshold": 14,
+    "maxThreshold": 17,
     "questionTitle": "בשבועיים האחרונים, באיזו מידה הרגשת...?",
     "questions": [
       "מתוח/ה או עצבני/ת",
@@ -47,19 +49,20 @@
   {
     "questionnaire": "Dissociation",
     "questionnaireType": "true-false",
-    "threshold": 1,
+    "minThreshold": 1,
     "questionTitle": "בשבועיים האחרונים, האם היו זמנים שהרגשת כאילו את/ה מנותק/ת מעצמך, כאילו את/ה צופה בעצמך מבחוץ או מתבונן במחשבותיך וברגשותיך כאילו היית אדם אחר?"
   },
   {
     "questionnaire": "Derealization",
     "questionnaireType": "true-false",
-    "threshold": 1,
+    "minThreshold": 1,
     "questionTitle": "בשבועיים האחרונים, האם היו זמנים שדברים שקורים מסביב לך נראו לא ממשיים או מאוד מוזרים ולא מוכרים, למשל כמו בחלום או כמו סצנה מסרט?"
   },
   {
     "questionnaire": "PCL-5",
     "questionnaireType": "discrete-scale",
-    "threshold": 34,
+    "minThreshold": 32,
+    "maxThreshold": 38,
     "questionTitle": "להלן רשימה של בעיות ותופעות מהן סובלים לעיתים אנשים בתגובה לאירועי חיים מלחיצים. ציין באיזו מידה הפריעה לך כל בעיה בשבועיים האחרונים.",
     "questions": [
       "זיכרונות טורדניים, חוזרים ולא רצויים של החוויה הטראומטית?",
@@ -109,7 +112,8 @@
   {
     "questionnaire": "GAD-7",
     "questionnaireType": "discrete-scale",
-    "threshold": 15,
+    "minThreshold": 14,
+    "maxThreshold": 17,
     "questionTitle": "במהלך השבועיים האחרונים, באיזו תדירות סבלת מכל אחת מהבעיות הבאות:",
     "questions": [
       "הרגשתי עצבני/ת, חרד/ה או מתוח/ה מאוד",
@@ -140,9 +144,10 @@
     ]
   },
   {
-    "questionnaire": "PHQ-9",
+    "questionnaire": "PHQ-8",
     "questionnaireType": "discrete-scale",
-    "threshold": 15,
+    "minThreshold": 10,
+    "maxThreshold": 12,
     "questionTitle": "במהלך השבועיים האחרונים, באיזו תדירות היית מוטרד/ת מכל אחת מהבעיות הבאות:",
     "questions": [
       "עניין או הנאה מועטים מעשיית דברים",
@@ -173,14 +178,44 @@
     ]
   },
   {
-    "questionnaire": "Cutoff1",
-    "questionnaireType": "cut-off",
-    "threshold": 1
+    "questionnaire": "CSE",
+    "questionnaireType": "discrete-scale",
+    "minThreshold": 3,
+    "maxThreshold": 5,
+    "questionTitle": "סמן את מידת ההסכמה שלך עם המשפטים הבאים",
+    "questions": [
+      "אתה מצליח לתפקד במישורי החיים השונים (למשל- בית/חברים/עבודה)",
+      "אתה מצליח לשלוט ברגשותיך ולא נותן להם לשלוט בך",
+      "הקשר שלך עם אחרים חם, קרוב, ומשמעותי",
+      "אתה מרגיש עם עצמך"      
+    ],
+    "answers": [
+      {
+        "label": "כלל לא",
+        "value": 0
+      },
+      {
+        "label": "במידה מועטה",
+        "value": 1
+      },
+      {
+        "label": "באופן בינוני",
+        "value": 2
+      },
+      {
+        "label": "במידה רבה",
+        "value": 3
+      },
+      {
+        "label": "באופן קיצוני",
+        "value": 4
+      }
+    ]
   },
   {
     "questionnaire": "צורך/רצון בעזרה מקצועית",
     "questionnaireType": "true-false",
-    "threshold": 1,
+    "minThreshold": 1,
     "questionTitle": "האם מרגיש.ה צורך/רצון בעזרה מקצועית?"
-  }
+  } 
 ]

@@ -10,7 +10,7 @@ import { DebugResults } from './DebugResults';
 import { mobile, smallDesktop } from './styles/style.consts';
 
 export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsSummary, sendAnonymousResults }) => {
-
+  const isDangerousSituation = resultsStore.summary.some(item => item.isDangerousSituation);
   const debugMode = useDebugMode();
   useEffect(() => {
     sendAnonymousResults && resultsStore.summary && sendAnonymousResults(resultsStore.summary);
@@ -30,7 +30,7 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
     <StyledSummaryContainer>
       {
         debugMode &&
-        <DebugResults resultsSummary={resultsStore.rangedSummary} personalDetailsSummary={personalDetailsSummary}/>
+        <DebugResults resultsSummary={resultsStore.summary} personalDetailsSummary={personalDetailsSummary}/>
       }
       <h1 className="margin-vertical-sm">תוצאות השאלונים:</h1>
       {
@@ -38,8 +38,14 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
         <div className="margin-bottom-ml">{` בדקנו איתך רמות של ${resultsStore.resultsElements}.`}</div>
       }
       <SummaryTableContainer className="margin-bottom-ml overflow-x">
-        <SummaryTable questionnairesSummary={resultsStore.rangedSummary}/>
+        <SummaryTable questionnairesSummary={resultsStore.summary}/>
       </SummaryTableContainer>
+      {isDangerousSituation && <StyledVerbalSummaryContainer>
+        <h1>טקסט חמור:</h1>
+        <StyledUl>
+          כאן יבוא טקסט חמור על מצבים מסוכנים ומה צריך לעשות
+        </StyledUl>
+      </StyledVerbalSummaryContainer>}
       <StyledVerbalSummaryContainer>
         <h1>סיכום והמלצות:</h1>
         {
@@ -60,7 +66,7 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
         <div className="margin-bottom-xl margin-top-m">
           {resultsStore.resultsVerbalSummary.summary}
           {
-            resultsStore.phq9SuicidalPositive &&
+            resultsStore.phq8SuicidalPositive &&
             <div className="margin-vertical-ml">
               <div>
               <span className="bold">דיווחת כי לעיתים את/ה חושב/ת שהיה עדיף לו היית מת/ה או שחשב/ת לפגוע בעצמך. </span>

@@ -12,7 +12,7 @@ export type FreeTextProps = QuestionnaireBaseProps & {
 export const FreeText: React.FC<FreeTextProps> = observer(({ initialState, questions, onNextClicked }) => {
 
   const [answer, setAnswer] = useState<string>(initialState as string ?? '');
-  const onNext = useMemo(() => onNextClicked ? () => onNextClicked(answer, !_.isEmpty(answer), answer) : undefined, [onNextClicked, answer]);
+  const onNext = useMemo(() => onNextClicked ? () => onNextClicked(answer, !_.isEmpty(answer), false, answer) : undefined, [onNextClicked, answer]);
 
   return (
     <QuestionnaireBase nextEnabled onNextClicked={onNext}>

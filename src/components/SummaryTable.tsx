@@ -41,14 +41,14 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ questionnairesSummar
               </TableCell>
               <TableCell>
                 {
-                  !_.isNil(s.minScore) && !_.isNil(s.threshold) && s.questionnaireType !== QuestionnaireTypes.TRUE_FALSE &&
-                  `${s.minScore} - ${s.threshold - 1}`
+                  !_.isNil(s.minScore) && !_.isNil(s.minThreshold) && s.questionnaireType !== QuestionnaireTypes.TRUE_FALSE &&
+                  `${s.minScore} - ${s.minThreshold - 1}`
                 }
               </TableCell>
               <TableCell>
                 {
                   !_.isNil(s.minScore) && !_.isNil(s.maxScore) && typeof s.score === 'number' &&
-                  <RangeSlider score={s.score} threshold={s.threshold} min={s.minScore} max={s.maxScore}/>
+                  <RangeSlider score={s.score} minThreshold={s.minThreshold} maxThreshold={s.maxThreshold} min={s.minScore} max={s.maxScore}/>
                 }
                 {
                   (s.questionnaireType === QuestionnaireTypes.TRUE_FALSE

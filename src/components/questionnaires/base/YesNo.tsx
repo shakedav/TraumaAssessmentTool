@@ -4,7 +4,8 @@ import { QuestionnaireBaseProps } from './types';
 import { PagedQuestions } from './PagedQuestions';
 
 export type YesNoProps = QuestionnaireBaseProps & {
-  threshold: number;
+  minThreshold: number;
+  maxThreshold: number;
   questionTitle: string;
   questions: string[];
 }
@@ -16,7 +17,8 @@ const answers = [
 
 export const YesNo: React.FC<YesNoProps> = observer(({
                                                        initialState,
-                                                       threshold,
+                                                       minThreshold,
+                                                       maxThreshold,
                                                        questions,
                                                        questionTitle,
                                                        onNextClicked,
@@ -28,10 +30,11 @@ export const YesNo: React.FC<YesNoProps> = observer(({
     }
     return (answersValues: number[]) => {
       const score = answersValues.reduce((acc, curr) => acc + curr, 0);
-      const didPassThreshold = score >= threshold;
-      onNextClicked(answersValues, didPassThreshold, score);
+      const didPassThreshold = score >= minThreshold;
+      const isDangerousSituation = score >= maxThreshold;
+      onNextClicked(answersValues, didPassThreshold, isDangerousSituation, score);
     }
-  }, [onNextClicked, threshold]);
+  }, [onNextClicked,  minThreshold, maxThreshold]);
 
   return (
     <PagedQuestions questionTitle={questionTitle} questions={questions} answers={answers} onNext={onNext}

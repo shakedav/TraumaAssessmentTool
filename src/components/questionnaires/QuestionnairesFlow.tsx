@@ -3,17 +3,15 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect } from 'react';
 import { OnNextClickedFunction, QuestionBase, questionTypeToComponentMap } from './base/types';
-import { SecondSectionIntro } from '../SecondSectionIntro';
 import { QuestionnaireContext } from '../../store/QuestionnaireContext';
-import { QuestionnaireTypes } from '../../data/data.consts';
 import { useFirebase } from '../hooks/useFirebase';
 
 export const QuestionnairesFlow: React.FC<QuestionnairesFlowProps> = observer(({ questionnairesStore }) => {
 
   const { logEvent } = useFirebase();
-  const onNextClicked = useCallback((state: unknown, didPassThreshold: boolean, score?: number | string) => {
+  const onNextClicked = useCallback((state: unknown, didPassThreshold: boolean, isDangerousSituation: boolean, score?: number | string) => {
       logEvent('next_question', questionnairesStore.analyticsData);
-      questionnairesStore.nextQuestion(state, didPassThreshold, score);
+      questionnairesStore.nextQuestion(state, didPassThreshold, isDangerousSituation, score);
       scrollToTop();
     }
     , [logEvent, questionnairesStore]);
@@ -28,17 +26,12 @@ export const QuestionnairesFlow: React.FC<QuestionnairesFlowProps> = observer(({
 
 
   return <div className="full-width flex-column full-height">
-    {
-      questionnairesStore.currentQuestion.questionnaireType !== QuestionnaireTypes.CUT_OFF &&
+    {      
       <QuestionnaireContext.Provider value={questionnairesStore.questionnaireContext}>
         {
           useQuestionnaireComponent(questionnairesStore.currentQuestion, questionnairesStore.currentQuestionState, onNextClicked)
         }
       </QuestionnaireContext.Provider>
-    }
-    {
-      questionnairesStore.currentQuestion.questionnaireType === QuestionnaireTypes.CUT_OFF &&
-      <SecondSectionIntro questionnairesStore={questionnairesStore}/>
     }
   </div>;
 });

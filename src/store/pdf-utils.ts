@@ -114,15 +114,15 @@ export const exportToPdf = async (questionnairesSummary: QuestionnairesSummary,
       font: boldFont,
     });
     if (typeof summary.score === 'number') {
-      const thresholdRange = `${summary.threshold} - ${summary.minScore}`;
+      const thresholdRange = `${summary.minThreshold} - ${summary.minScore}`;
       page.drawText(thresholdRange, {
         x: getAdjustedXPosition(fourthColumnX, thresholdRange, BODY_FONT_SIZE),
         y: tableRowsY - (index * 2 * BODY_FONT_SIZE),
         size: BODY_FONT_SIZE,
         font    });
 
-      const underThresholdPercentage = (summary.threshold - summary.minScore) / (summary.maxScore - summary.minScore);
-      const overThresholdPercentage = (summary.maxScore - summary.threshold) / (summary.maxScore - summary.minScore);
+      const underThresholdPercentage = (summary.minThreshold - summary.minScore) / (summary.maxScore - summary.minScore);
+      const overThresholdPercentage = (summary.maxScore - summary.minThreshold) / (summary.maxScore - summary.minScore);
       const underThresholdLineWidth = lineTotalWidth * underThresholdPercentage;
       const overThresholdLineWidth = lineTotalWidth * overThresholdPercentage;
       page.drawText(summary.minScore.toString(), {

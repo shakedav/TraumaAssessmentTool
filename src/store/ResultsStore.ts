@@ -8,8 +8,8 @@ import {
   QUESTIONNAIRE_NAME_TO_ELEMENT,
   QUESTIONNAIRE_NAME_TO_SYMPTOMS,
   QuestionnaireTypes,
-  PHQ9SuicidalQuestionIndex,
-  PHQ9SuicidalQuestionThreshold
+  PHQ8SuicidalQuestionIndex,
+  PHQ8SuicidalQuestionThreshold
 } from '../data/data.consts';
 
 export class ResultsStore {
@@ -24,16 +24,18 @@ export class ResultsStore {
       const { questionnaire, questionnaireType } = question;
       const score = this.questionnairesStore.questionnaireScores[index]?.score;
       const didPassThreshold = this.questionnairesStore.questionnaireScores[index]?.didPassThreshold;
-      if (score === undefined || questionnaireType === QuestionnaireTypes.CUT_OFF) {
+      const isDangerousSituation = this.questionnairesStore.questionnaireScores[index]?.isDangerousSituation;
+      if (score === undefined) {
         return acc;
       }
       if (questionnaireType === QuestionnaireTypes.MULTI_DISCRETE_SCALE) {
-        return [...acc, ...(this._getMultiDiscreteScaleQuestionnaireSummary(score, question, didPassThreshold))];
+        return [...acc, ...(this._getMultiDiscreteScaleQuestionnaireSummary(score, question, didPassThreshold, isDangerousSituation))];
       }
       return [...acc, {
         questionnaireName: questionnaire,
         questionnaireType,
         didPassThreshold,
+        isDangerousSituation,
         score: this._getQuestionnaireSummaryScore(question, score),
         ...this.questionnairesStore.getQuestionnaireRange(question),
       }];
@@ -41,17 +43,8 @@ export class ResultsStore {
   }
 
   @computed
-  get rangedSummary(): QuestionnairesSummary {
-    if (this.questionnairesStore.skippedSecondSection) {
-      return this.summary.slice(0, this.questionnairesStore.cutoffQuestionIndex + 1);
-    } else {
-      return this.summary.slice(this.questionnairesStore.cutoffQuestionIndex, this.summary.length);
-    }
-  }
-
-  @computed
   get questionnairesOverThreshold(): QuestionnairesSummary {
-    return _.filter(this.rangedSummary, ({ didPassThreshold }) => didPassThreshold);
+    return _.filter(this.summary, ({ didPassThreshold }) => didPassThreshold);
   }
 
   @computed
@@ -66,15 +59,15 @@ export class ResultsStore {
       const isSlightlyPositive = this.questionnairesOverThreshold.every(({
                                                                            score,
                                                                            maxScore,
-                                                                           threshold
+                                                                           minThreshold
                                                                          }) => {
         if (typeof score !== 'number') {
           return true;
         }
-        const percentage = this._percentOverThreshold(score, maxScore, threshold);
+        const percentage = this._percentOverThreshold(score, maxScore, minThreshold);
         return percentage <= 20;
       });
-      if (isSlightlyPositive && !this.phq9SuicidalPositive) {
+      if (isSlightlyPositive && !this.phq8SuicidalPositive) {
         return SECOND_STAGE_RESULT_CATEGORY.SLIGHTLY_POSITIVE;
       }
     }
@@ -110,10 +103,10 @@ export class ResultsStore {
   }
 
   @computed
-  get phq9SuicidalPositive(): boolean {
-    const phqIndex = this.questionnairesStore.questions.findIndex(q => q.questionnaire === 'PHQ-9');
-    const suicidalQuestionScore = this.questionnairesStore.questionnairesStates[phqIndex]?.[PHQ9SuicidalQuestionIndex];
-    return !_.isNil(suicidalQuestionScore) && suicidalQuestionScore >= PHQ9SuicidalQuestionThreshold;
+  get phq8SuicidalPositive(): boolean {
+    const phqIndex = this.questionnairesStore.questions.findIndex(q => q.questionnaire === 'PHQ-8');
+    const suicidalQuestionScore = this.questionnairesStore.questionnairesStates[phqIndex]?.[PHQ8SuicidalQuestionIndex];
+    return !_.isNil(suicidalQuestionScore) && suicidalQuestionScore >= PHQ8SuicidalQuestionThreshold;
   }
 
   @computed
@@ -167,7 +160,7 @@ export class ResultsStore {
   }
 
   public async exportToPdf(personalDetailsSummary?: Record<string, string | undefined>) {
-    return exportToPdf(this.rangedSummary, this.resultsVerbalSummary.summary, this.resultsVerbalSummary.actions,
+    return exportToPdf(this.summary, this.resultsVerbalSummary.summary, this.resultsVerbalSummary.actions,
       this.resultsSymptomsString, personalDetailsSummary);
   }
 
@@ -188,19 +181,20 @@ export class ResultsStore {
     return elements.slice(0, elements.length - 1).join(', ') + ' ו' + elements.slice(-1).pop();
   }
 
-  private _getMultiDiscreteScaleQuestionnaireSummary(scores, question, didPassThreshold) {
+  private _getMultiDiscreteScaleQuestionnaireSummary(scores, question, didPassThreshold, isDangerousSituation) {
     return scores.map((qScore, qIndex) => {
       return ({
         questionnaireName: question.questionnaires[qIndex].questionnaire,
         questionnaireType: QuestionnaireTypes.DISCRETE_SCALE,
         score: qScore,
         didPassThreshold,
+        isDangerousSituation,
         ...this.questionnairesStore.getQuestionnaireRange(question.questionnaires[qIndex]),
       });
     });
   }
 
-  private _percentOverThreshold(score: number, max: number, threshold: number): number {
-    return Math.round((score - threshold) / (max - threshold) * 100);
+  private _percentOverThreshold(score: number, max: number, minThreshold: number): number {
+    return Math.round((score - minThreshold) / (max - minThreshold) * 100);
   }
 }

@@ -16,7 +16,7 @@ export const QuestionnaireConfigCell: React.FC<{ question: ConfigCellQuestion }>
     <TableRow>
       <NameCell>{question.questionnaire}</NameCell>
       <TableCell>{question.questionnaireType}</TableCell>
-      <TableCell>{question.threshold ?? ''}</TableCell>
+      <TableCell>{question.minThreshold ?? ''}</TableCell>
       {
         question.questionTitle &&
         <TableCell className="rtl">{question.questionTitle}</TableCell>
@@ -46,7 +46,8 @@ export const QuestionnaireConfigCell: React.FC<{ question: ConfigCellQuestion }>
 });
 
 type ConfigCellQuestion = QuestionBase & {
-  threshold?: number;
+  minThreshold?: number;
+  maxThreshold?: number;
   questionTitle?: string;
   questions?: Array<string | { text: string }>;
 };

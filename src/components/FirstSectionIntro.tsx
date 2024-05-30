@@ -14,7 +14,7 @@ export const FirstSectionIntro: React.FC<FirstSectionIntroProps> = observer(({ o
     logEvent('first_section_intro_visited');
   }, [logEvent]);
   return (
-    <StickyBottomButtonPage buttonText={'התחלת החלק הראשון'} onButtonClick={() => onNextClicked(optOut)}>
+    <StickyBottomButtonPage buttonText={'המשך'} onButtonClick={() => onNextClicked(optOut)}>
       <IntroContainer>
         <ImagePage title="רגע לפני שנתחיל" imageSrc="/first-section.png">
           <p className="align-text-right pre-wrap">

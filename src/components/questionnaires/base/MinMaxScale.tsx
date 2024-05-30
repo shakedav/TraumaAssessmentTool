@@ -5,7 +5,8 @@ import { QuestionnaireBaseProps } from './types';
 import { QuestionnaireBase } from './QuestionnaireBase';
 
 export type MinMaxScaleProps = QuestionnaireBaseProps & {
-  threshold: number;
+  minThreshold: number;
+  maxThreshold: number;
   min: number;
   max: number;
   minLabel: string;
@@ -14,8 +15,9 @@ export type MinMaxScaleProps = QuestionnaireBaseProps & {
 }
 
 export const MinMaxScale: React.FC<MinMaxScaleProps> = observer(({
-                                                                   initialState,
-                                                                   threshold,
+                                                                   initialState,                                                                   
+                                                                   minThreshold,
+                                                                   maxThreshold,
                                                                    min,
                                                                    max,
                                                                    minLabel,
@@ -29,8 +31,9 @@ export const MinMaxScale: React.FC<MinMaxScaleProps> = observer(({
   const onSelectionChanged = (_, { value }: RadioGroupOnChangeData) => {
     setSelection(parseInt(value));
   };
-  const didPassThreshold = !!(selection && selection >= threshold);
-  const onNext = useMemo(() => onNextClicked ? () => onNextClicked(selection, didPassThreshold, selection!) : undefined, [onNextClicked, selection, didPassThreshold]);
+  const didPassThreshold = !!(selection && selection >= minThreshold);
+  const isDangerousSituation = !!(selection && selection >= maxThreshold);
+  const onNext = useMemo(() => onNextClicked ? () => onNextClicked(selection, didPassThreshold, isDangerousSituation, selection!) : undefined, [onNextClicked, selection, didPassThreshold, isDangerousSituation]);
 
   return (
     <QuestionnaireBase questionTitle={questionTitle} nextEnabled={selection !== undefined} onNextClicked={onNext}>

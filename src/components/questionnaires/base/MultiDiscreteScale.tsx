@@ -6,14 +6,15 @@ import { useCallback, useState } from 'react';
 import { PagedQuestions } from './PagedQuestions';
 
 export type MultiDiscreteScaleProps = QuestionnaireBaseProps & {
-  threshold: number;
+  minThreshold: number;
+  maxThreshold: number;
   questionnaires: DiscreteScaleProps[];
 }
 
 export const MultiDiscreteScale: React.FC<MultiDiscreteScaleProps> = observer(({
                                                                                  onNextClicked,
                                                                                  initialState,
-                                                                                 threshold,
+                                                                                 minThreshold,
                                                                                  questionnaires,
                                                                                }) => {
 
@@ -26,12 +27,12 @@ export const MultiDiscreteScale: React.FC<MultiDiscreteScaleProps> = observer(({
     setAllQuestionnaireAnswers(newAnswersValues);
     if (index === questionnaires.length - 1) {
       const scores = _.map(newAnswersValues, a => _.sum(a));
-      const questionnairesThatPassedThreshold = _.filter(questionnaires, (q, i) => scores[i] >= q.threshold).length;
-      onNextClicked?.(newAnswersValues, questionnairesThatPassedThreshold >= threshold, scores);
+      const questionnairesThatPassedThreshold = _.filter(questionnaires, (q, i) => scores[i] >= q.minThreshold).length;
+      onNextClicked?.(newAnswersValues, questionnairesThatPassedThreshold >= minThreshold, scores);
     } else {
       setCurrentQuestionnaireIndex(index + 1);
     }
-  }, [allQuestionnaireAnswers, onNextClicked, questionnaires, threshold]);
+  }, [allQuestionnaireAnswers, onNextClicked, questionnaires, minThreshold]);
 
   return (
     <PagedQuestions key={currentQuestionnaireIndex} {...questionnaires[currentQuestionnaireIndex]}

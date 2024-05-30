@@ -7,11 +7,11 @@ import styled from 'styled-components';
 
 export type TrueFalseProps = QuestionnaireBaseProps & {
   questionTitle: string;
-  threshold: 0 | 1;
+  minThreshold: 0 | 1;
 }
 
 export const TrueFalse: React.FC<TrueFalseProps> = observer(({
-                                                               threshold,
+                                                               minThreshold,
                                                                questionTitle,
                                                                onNextClicked,
                                                              }) => {
@@ -20,9 +20,9 @@ export const TrueFalse: React.FC<TrueFalseProps> = observer(({
     if (!onNextClicked) {
       return;
     }
-    const didPassThreshold = threshold === 1 ? answer : !answer;
-    onNextClicked(answer, didPassThreshold, didPassThreshold ? 1 : 0);
-  }, [onNextClicked, threshold]);
+    const didPassThreshold = minThreshold === 1 ? answer : !answer;
+    onNextClicked(answer, didPassThreshold, false, didPassThreshold ? 1 : 0);
+  }, [onNextClicked, minThreshold]);
 
   return (
     <QuestionnaireBase questionTitle={questionTitle}>

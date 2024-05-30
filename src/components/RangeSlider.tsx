@@ -1,15 +1,15 @@
 import { Label } from '@fluentui/react-components';
 import styled from 'styled-components';
 
-export const RangeSlider: React.FC<RangeSliderProps> = ({ min, max, threshold, score }) => {
+export const RangeSlider: React.FC<RangeSliderProps> = ({ min, max, minThreshold, score }) => {
 
   return (
     <StyledRangeSlider>
       <StyledLabel size="small" weight="semibold">{min}</StyledLabel>
       <StyledSlider>
-        <StyledGoodArea $min={min} $max={max} $threshold={threshold}/>
-        <StyledBadArea $min={min} $max={max} $threshold={threshold}/>
-        <ScoreMark $min={min} $max={max} $score={score} $threshold={threshold}/>
+        <StyledGoodArea $min={min} $max={max} $threshold={minThreshold}/>
+        <StyledBadArea $min={min} $max={max} $threshold={minThreshold}/>
+        <ScoreMark $min={min} $max={max} $score={score} $threshold={minThreshold}/>
       </StyledSlider>
       <StyledLabel size="small" weight="semibold">{max}</StyledLabel>
     </StyledRangeSlider>
@@ -76,7 +76,8 @@ const StyledRangeSlider = styled.div`
 type RangeSliderProps = {
   min: number;
   max: number;
-  threshold: number;
+  minThreshold: number;
+  maxThreshold: number;
   score: number;
 }
 

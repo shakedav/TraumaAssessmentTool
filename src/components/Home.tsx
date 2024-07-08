@@ -1,7 +1,6 @@
 import { APPLICATION_STEP, ApplicationStateStore } from '../store/ApplicationStateStore';
 import { useEffect, useRef, useState } from 'react';
 import { WelcomeScreen } from './WelcomeScreen';
-import { PersonalDetails } from './PersonalDetails';
 import { QuestionnairesFlow } from './questionnaires/QuestionnairesFlow';
 import { Summary } from './Summary';
 import { observer } from 'mobx-react-lite'
@@ -29,9 +28,10 @@ export const Home: React.FC = observer(() => {
     appStateStore?.next();
     cardRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
   return (
     <div className="flex-column flex-1 full-width" ref={cardRef}>
-      {
+            {
         !appStateStore &&
         <Spinner/>
       }
@@ -45,12 +45,7 @@ export const Home: React.FC = observer(() => {
           {
             appStateStore.step === APPLICATION_STEP.WELCOME &&
             <WelcomeScreen onNextClicked={nextAndScrollToTop}/>
-          }
-          {
-            appStateStore.step === APPLICATION_STEP.PERSONAL_DETAILS &&
-            <PersonalDetails personalDetailsStore={appStateStore.personalDetailsStore}
-                             onNextClicked={nextAndScrollToTop}/>
-          }
+          }         
           {
             appStateStore.step === APPLICATION_STEP.FIRST_SECTION_INTRO &&
             <FirstSectionIntro onNextClicked={(optOut: boolean) => {
@@ -71,7 +66,6 @@ export const Home: React.FC = observer(() => {
           {
             appStateStore.step === APPLICATION_STEP.SUMMARY &&
             <Summary resultsStore={appStateStore.resultsStore}
-                     personalDetailsSummary={appStateStore.personalDetailsStore.summary}
                      sendAnonymousResults={sendAnonymousResults}/>
           }
         </>

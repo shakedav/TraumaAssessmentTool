@@ -7,13 +7,10 @@ const BODY_FONT_SIZE = 9;
 const SUBTITLE_FONT_SIZE = 12;
 const TITLE_FONT_SIZE = 18;
 
-type PersonalDetailsSummary = { [key: string]: string | undefined };
-
 export const exportToPdf = async (questionnairesSummary: QuestionnairesSummary,
-                                  resultsVerbalSummary: string,
+                                  resultsVerbalSummary: string[],
                                   resultsActions: string[],
-                                  symptoms: string | null,
-                                  personalDetailsSummary?: PersonalDetailsSummary) => {
+                                  symptoms: string | null) => {
   const { pdfDoc, font, getAdjustedXPosition, boldFont, getBoldAdjustedXPosition, page } = await _createPdf();
   const { height, width } = page.getSize()
 
@@ -167,7 +164,7 @@ export const exportToPdf = async (questionnairesSummary: QuestionnairesSummary,
         color: gray,
       });
     }
-    const lines = _breakLines(summary.score.toString(), font, BODY_FONT_SIZE, width - secondColumnX - horizontalMargin);
+    const lines = _breakLines([summary.score.toString()], font, BODY_FONT_SIZE, width - secondColumnX - horizontalMargin);
     lines.forEach(line => {
       page.drawText(line, {
         x: getAdjustedXPosition(thirdColumnX, line, BODY_FONT_SIZE),
@@ -206,7 +203,7 @@ export const exportToPdf = async (questionnairesSummary: QuestionnairesSummary,
 
   let recommendationsRowY = recommendationsSubtitleY;
   if (symptoms) {
-    const recommendationsSubtitle = 'כפי שניתן לראות בטבלה דיווחת על רמות מצוקה גבוהות בכמה אזורים, ובהם: ' + symptoms + '.';
+    const recommendationsSubtitle = ['כפי שניתן לראות בטבלה דיווחת על רמות מצוקה גבוהות בכמה אזורים, ובהם: ' + symptoms + '.'];
     const symptomsLines = _breakLines(recommendationsSubtitle, font, BODY_FONT_SIZE, width - 2 * horizontalMargin);
     symptomsLines.forEach((line, lineIndex) => {
       page.drawText(line, {
@@ -230,8 +227,8 @@ export const exportToPdf = async (questionnairesSummary: QuestionnairesSummary,
   });
   lastRecommendationLineY -= recommendationsLines.length * 1.3 * BODY_FONT_SIZE;
   let actionsRowY = lastRecommendationLineY - BODY_FONT_SIZE;
-  resultsActions.forEach(action => {
-    const lines = _breakLines(action, font, BODY_FONT_SIZE, width - 2 * horizontalMargin);
+  // resultsActions.forEach(action => {
+    const lines = _breakLines(resultsActions, font, BODY_FONT_SIZE, width - 2 * horizontalMargin);
     lines.forEach((line, lineIndex) => {
       const adjustedLine = _flipParentheses(line);
       page.drawText(adjustedLine, {
@@ -242,45 +239,8 @@ export const exportToPdf = async (questionnairesSummary: QuestionnairesSummary,
       });
     });
     actionsRowY -= lines.length * 1.3 * BODY_FONT_SIZE;
-  });
+  // });
   lastRecommendationLineY = actionsRowY;
-
-  if (personalDetailsSummary) {
-    const personalDetailsHeaderY = lastRecommendationLineY - 2 * BODY_FONT_SIZE;
-    const personalDetailsLineY = personalDetailsHeaderY - BODY_FONT_SIZE
-    const personalDetailsRowY = personalDetailsLineY - 2 * BODY_FONT_SIZE;
-
-    const personalDetailsTitle = 'פרטים אישיים:';
-    page.drawText(personalDetailsTitle, {
-      x: getBoldAdjustedXPosition(firstColumnX, personalDetailsTitle, SUBTITLE_FONT_SIZE),
-      y: personalDetailsHeaderY,
-      size: SUBTITLE_FONT_SIZE,
-      font: boldFont,
-    });
-    page.drawLine({
-      start: { x: horizontalMargin, y: personalDetailsLineY },
-      end: { x: firstColumnX, y: personalDetailsLineY },
-      thickness: 2,
-      color: indigo,
-    });
-    Object.entries(personalDetailsSummary).forEach(([key, value], index) => {
-      page.drawText(key, {
-        x: getBoldAdjustedXPosition(firstColumnX, key, BODY_FONT_SIZE),
-        y: personalDetailsRowY - (index * 2 * BODY_FONT_SIZE),
-        size: BODY_FONT_SIZE,
-        font: boldFont,
-      });
-      const lines = _breakLines(value ?? '', font, BODY_FONT_SIZE, width - secondColumnX);
-      lines.forEach((line, lineIndex) => {
-        page.drawText(line, {
-          x: getAdjustedXPosition(secondColumnX, line, BODY_FONT_SIZE),
-          y: personalDetailsRowY - (((index * 2) + lineIndex) * BODY_FONT_SIZE),
-          size: BODY_FONT_SIZE,
-          font,
-        });
-      });
-    });
-  }
 
   const footerText = 'סיכום זה הופק באמצעות כלי האבחון המקוון שפותח בשיתוף המועצה הישראלית לפוסט־טראומה';
   page.drawText(footerText, {
@@ -309,9 +269,9 @@ const getColors = () => {
   return { indigo, gray, lightRed, lightGreen };
 };
 
-const _breakLines = (text: string, font:PDFFont, fontSize: number, maxLineLength = 80) => {
+const _breakLines = (text: string[], font:PDFFont, fontSize: number, maxLineLength = 80) => {
   const lines: string[] = [];
-  const paragraphs = text.split('\n');
+  const paragraphs = text;
   paragraphs.forEach(paragraph => {
     const paragraphLines = _breakParagraph(paragraph, font, fontSize, maxLineLength);
     lines.push(...paragraphLines);

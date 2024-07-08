@@ -26,12 +26,7 @@ export const AppCommandBar: React.FC<AppCommandBarProps> = observer(({ appStateS
           debugMode && appStateStore.step !== APPLICATION_STEP.SUMMARY &&
           <StyledButton appearance="subtle" iconPosition="after" size="small" icon={<ArrowBounce24Regular/>} shape="circular"
                         onClick={() => appStateStore.skip()}>דלג</StyledButton>
-        }
-        {
-          !debugMode && appStateStore.step === APPLICATION_STEP.PERSONAL_DETAILS &&
-          <StyledButton appearance="subtle" iconPosition="after" size="small" icon={<ArrowBounce24Regular/>} shape="circular"
-                        onClick={() => appStateStore.next()}>דלג</StyledButton>
-        }
+        }       
       </div>
       <StepDisplayName>{appStateStore.stepDisplayName}</StepDisplayName>
     </CommandBar>

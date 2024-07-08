@@ -1,5 +1,4 @@
 import { computed, makeAutoObservable } from 'mobx';
-import { PersonalDetailsStore } from './PersonalDetailsStore';
 import { QuestionnairesStore } from './QuestionnairesStore';
 import { QuestionBase } from '../components/questionnaires/base/types';
 import { ResultsStore } from './ResultsStore';
@@ -8,7 +7,6 @@ import { QuestionnaireTypes } from '../data/data.consts';
 
 export enum APPLICATION_STEP {
   WELCOME = 'WELCOME',
-  PERSONAL_DETAILS = 'PERSONAL_DETAILS',
   FIRST_SECTION_INTRO = 'FIRST_SECTION_INTRO',
   QUESTIONNAIRES = 'QUESTIONNAIRES',
   COMPLETED_QUESTIONNAIRES = 'COMPLETED_QUESTIONNAIRES',
@@ -17,7 +15,6 @@ export enum APPLICATION_STEP {
 
 const APPLICATION_STEPS = [
   APPLICATION_STEP.WELCOME,
-  APPLICATION_STEP.PERSONAL_DETAILS,
   APPLICATION_STEP.FIRST_SECTION_INTRO,
   APPLICATION_STEP.QUESTIONNAIRES,
   APPLICATION_STEP.COMPLETED_QUESTIONNAIRES,
@@ -25,9 +22,6 @@ const APPLICATION_STEPS = [
 ];
 
 export class ApplicationStateStore {
-
-  personalDetailsStore: PersonalDetailsStore;
-
   questionnairesStore: QuestionnairesStore;
 
   resultsStore: ResultsStore;
@@ -36,7 +30,6 @@ export class ApplicationStateStore {
 
   constructor(questionnaires: QuestionBase[]) {
     makeAutoObservable(this)
-    this.personalDetailsStore = new PersonalDetailsStore();
     this.questionnairesStore = new QuestionnairesStore(this.goToSummary.bind(this), this.next.bind(this), questionnaires);
     this.resultsStore = new ResultsStore(this.questionnairesStore);
   }
@@ -46,8 +39,6 @@ export class ApplicationStateStore {
     switch (this.step) {
       case APPLICATION_STEP.WELCOME:
         return 'התחלה';
-      case APPLICATION_STEP.PERSONAL_DETAILS:
-        return 'שאלות אישיות';
       case APPLICATION_STEP.FIRST_SECTION_INTRO:
         return 'מבוא';
       case APPLICATION_STEP.QUESTIONNAIRES:

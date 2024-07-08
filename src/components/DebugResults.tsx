@@ -4,7 +4,7 @@ import { QuestionnairesSummary } from '../store/types';
 import styled from 'styled-components';
 
 
-export const DebugResults: React.FC<DebugResultsProps> = observer(({ resultsSummary, personalDetailsSummary }) => {
+export const DebugResults: React.FC<DebugResultsProps> = observer(({ resultsSummary }) => {
   return (
     <StyledAccordion collapsible className="full-width align-text-left" dir="ltr">
       <AccordionItem value="1">
@@ -20,28 +20,13 @@ export const DebugResults: React.FC<DebugResultsProps> = observer(({ resultsSumm
             })
           }
         </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem value="2">
-        <AccordionHeader expandIconPosition="end">Personal Details Debug Data</AccordionHeader>
-        <AccordionPanel id="personal-details-debug">
-          {
-            Object.entries(personalDetailsSummary).map(([key, value], index) => {
-              return (
-                <div key={index}>
-                  <p>{key}: {value}</p>
-                </div>
-              )
-            })
-          }
-        </AccordionPanel>
-      </AccordionItem>
+      </AccordionItem>     
     </StyledAccordion>
   );
 });
 
 type DebugResultsProps = {
   resultsSummary: QuestionnairesSummary;
-  personalDetailsSummary: Record<string, string | undefined>;
 }
 
 const StyledAccordion = styled(Accordion)`

@@ -213,7 +213,7 @@
     ]
   },
   {
-    "questionnaire": "צורך/רצון בעזרה מקצועית",
+    "questionnaire": "WANT_HELP",
     "questionnaireType": "true-false",
     "minThreshold": 1,
     "questionTitle": "האם מרגיש.ה צורך/רצון בעזרה מקצועית?"

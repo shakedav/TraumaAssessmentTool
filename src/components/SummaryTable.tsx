@@ -12,10 +12,11 @@ import styled from 'styled-components';
 import { tableRowClassName } from '@fluentui/react-table';
 import { QuestionnairesSummary } from '../store/types';
 import { RangeSlider } from './RangeSlider';
-import { QUESTIONNAIRE_NAME_TO_PURPOSE, QuestionnaireTypes } from '../data/data.consts';
+import { QUESTIONNAIRE_NAME_TO_PURPOSE, QuestionnaireNames, QuestionnaireTypes } from '../data/data.consts';
 
 export const SummaryTable: React.FC<SummaryTableProps> = ({ questionnairesSummary }) => {
 
+  questionnairesSummary = questionnairesSummary.filter(questionaire => ![QuestionnaireNames.Derealization.toString(), QuestionnaireNames.Dissociation.toString()].includes(questionaire.questionnaireName))
   return (
     <StyledTable size="small">
       <TableHeader>

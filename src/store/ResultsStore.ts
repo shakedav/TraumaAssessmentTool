@@ -9,8 +9,10 @@ import {
   QUESTIONNAIRE_NAME_TO_SYMPTOMS,
   QuestionnaireTypes,
   PHQ8SuicidalQuestionIndex,
-  PHQ8SuicidalQuestionThreshold
+  PHQ8SuicidalQuestionThreshold,
+  QuestionnaireNames
 } from '../data/data.consts';
+import { JsxElement } from 'typescript';
 
 export class ResultsStore {
 
@@ -21,7 +23,7 @@ export class ResultsStore {
   @computed
   get summary(): QuestionnairesSummary {
     return _.reduce(this.questionnairesStore.questions, (acc, question, index) => {
-      const { questionnaire, questionnaireType } = question;
+      const { questionnaire, questionnaireType } = question;     
       const score = this.questionnairesStore.questionnaireScores[index]?.score;
       const didPassThreshold = this.questionnairesStore.questionnaireScores[index]?.didPassThreshold;
       const isDangerousSituation = this.questionnairesStore.questionnaireScores[index]?.isDangerousSituation;
@@ -90,11 +92,32 @@ export class ResultsStore {
     if (this.secondStageResultCategory === SECOND_STAGE_RESULT_CATEGORY.NEGATIVE) {
       return null;
     }
-    return _.chain(this.questionnairesOverThreshold)
-      .map(q => QUESTIONNAIRE_NAME_TO_SYMPTOMS[q.questionnaireName])
-      .filter(Boolean)
-      .uniq()
-      .value();
+
+    const pcl5AndDissSymptom = 'custom_symptom';
+
+    // Check if "PCL-5" and "Dissociation" exist in the array
+    const pcl5Exists = this.questionnairesOverThreshold.some(q => q.questionnaireName === QuestionnaireNames.PCL_5);
+    const dissociationExists = this.questionnairesOverThreshold.some(q => q.questionnaireName === QuestionnaireNames.Dissociation);
+
+    // Generate the results array excluding "PCL-5" and "Dissociation"
+    const results = _.chain(this.questionnairesOverThreshold)
+          .filter(q => q.questionnaireName !== QuestionnaireNames.PCL_5 && q.questionnaireName !== QuestionnaireNames.Dissociation)
+          .map(q => QUESTIONNAIRE_NAME_TO_SYMPTOMS[q.questionnaireName])
+          .filter(Boolean)
+          .uniq()
+          .value();
+
+    // Add the custom value if either "PCL-5" or "Dissociation" exist
+    if (pcl5Exists && dissociationExists) {
+        results.unshift(QUESTIONNAIRE_NAME_TO_SYMPTOMS[QuestionnaireNames.Dissociation]);
+    } else {
+      if (pcl5Exists) {
+        results.unshift(QUESTIONNAIRE_NAME_TO_SYMPTOMS[QuestionnaireNames.PCL_5]);
+      }
+    }
+
+    console.log(results);
+    return results;
   }
 
   @computed
@@ -110,7 +133,7 @@ export class ResultsStore {
   }
 
   @computed
-  get resultsVerbalSummary(): { summary: string; actions: string[]; } {
+  get resultsVerbalSummary(): { summaryTitle?: string, summary: string[]; actions: string[]; } {
     const baseActions = [
       'אם רוצים, כדאי לדבר עם אדם שסומכים עליו, קרוב/ה או חבר/ה, ולשתף במה שאת/ה מרגיש/ה וחווה, ולא להישאר לבד עם התחושות הקשות.',
       'אפשר ליצור קשר עם ארגוני תמיכה נפשית כמו ער"ן (1-201), נט"ל (1-800-363-363), או סה"ר (https://sahar.org.il) אם מרגישים מצוקה גדולה כרגע.',
@@ -124,21 +147,19 @@ export class ResultsStore {
       case SECOND_STAGE_RESULT_CATEGORY.NEGATIVE:
         if (this.questionnairesStore.skippedSecondSection) {
           return {
-            summary: 'הסימנים עליהם דיווחת דומים לאלה שרוב האנשים מרגישים. הם אינם מדאיגים ויחלפו עם הזמן וכאשר האירועים יירגעו, ונראה שאינך זקוק/ה לעזרה טיפולית כרגע. ' +
-              'יש לך כוח היום לעזור לאחרים, לשמור על שיגרת החיים, לתת למי שצריך או צריכה, וגם לנהל חיים בריאים. ',
+            summary: ['הסימנים עליהם דיווחת דומים לאלה שרוב האנשים מרגישים. הם אינם מדאיגים ויחלפו עם הזמן וכאשר האירועים יירגעו, ונראה שאינך זקוק/ה לעזרה טיפולית כרגע. ' +
+              'יש לך כוח היום לעזור לאחרים, לשמור על שיגרת החיים, לתת למי שצריך או צריכה, וגם לנהל חיים בריאים. '],
             actions: negativeActions,
           }
         }
         return {
-          summary: 'דיווחת על רמות מצוקה, שלמרות שהן עשויות להיות כואבות עבורך, הן אופייניות לרוב האנשים במצבים דומים. ' +
-            'אנשים המדווחים על רמות סבירות של מצוקה יכולים לעודד אחרים ובמיוחד בני משפחה, לנחם או לשתף תחושות חיוביות, ולחזור לחיים בריאים. ' +
-            'אין הכרח לפנות לעזרה מקצועית עכשיו, ורוב הסיכויים הם שתחלימ/י עם חלוף הזמן ועם תמיכה של אחרים. ',
+          summary: ['דיווחת על רמות מצוקה, שאופייניות להרבה אנשים שעברו התנסויות כמו אלה שלך. לידיעתך: רוב האנשים המדווחים על רמות מצוקה כמו שלך יכולים לקבל מספיק תמיכה ועידוד מחברים ומהמשפחה, להיעזר על ידי תחושת מטרה לעזור לאחרים ולאחר מכן לחזור לחיים בריאים. אנו ממליצים לך לחזור ולבצע את ההערכה שכרגע גמרת כל כמה זמן כדי לעקוב אחרי מצבך.'],
           actions: negativeActions,
         };
       case SECOND_STAGE_RESULT_CATEGORY.SLIGHTLY_POSITIVE:
         return {
-          summary: 'בתחומים אחרים הסימפטומים שלך אינם שונים ממה שאנשים מרגישים בדרך כלל במצבים דומים.\n' +
-            'אין הכרח לפנות לעזרה מקצועית עכשיו, ורוב הסיכויים הם שתחלימ/י עם חלוף הזמן ועם תמיכה של אחרים. ',
+          summary: ['בתחומים אחרים הסימפטומים שלך אינם שונים ממה שאנשים מרגישים בדרך כלל במצבים דומים.',
+          'אין הכרח לפנות לעזרה מקצועית עכשיו, ורוב הסיכויים הם שתחלימ/י עם חלוף הזמן ועם תמיכה של אחרים.'],
           actions: [
             'אם את/ה בכל זאת מרגיש/ה צורך בכך, או אם את/ה מאוד לבד או במצוקה - כדאי לפנות לייעוץ.',
             'בכל מקרה כדאי לחזור ולבצע שוב את ההערכה בעוד שבועיים.',
@@ -147,21 +168,24 @@ export class ResultsStore {
         };
       case SECOND_STAGE_RESULT_CATEGORY.POSITIVE:
         return {
-          summary: 'הסימפטומים שלך לא קלים, וחשוב מאד לפנות להערכה מקצועית ולטיפול. ' +
-            'חשוב לא להתעכב עם הפנייה, ולגשת בהקדם לגורם מקצועי. ',
-          actions: [
+          summaryTitle: 'אתה יכול לעזור להתאוששות שלך על ידי שמירה על קשר ובילוי זמן יחד עם אנשים, לא לבודד את עצמך או להישאר לבד, לעסוק בפעילויות ולראות אם אתה יכול לעזור לאנשים אחרים סביבך.',
+          summary: ['חשוב לבדוק שוב את מצבך בעוד שבועיים-שלושה כדי לוודא שאת/ה על מסלול התאוששות והסימפטומים שלך נעלמים לאט.',
+                 'אם זה לא קורה, או אם את/ה לא רוצה לחכות ומרגיש/ה שאת/ה זקוק/ה לתמיכה מקצועית עכשיו – השתמש/י בדו"ח הנ"ל כדי ליידע את המטפל שלכם (למשל, רופא המשפחה) שיש נושאים בחייכם שדורשים הערכה ותמיכה נוספת.',
+                 'כמו כן, אם נראה שמישהו סביבך זקוק לתשומת לב, עודדו אותו להשתמש בכלי זה כדי להעריך את עצמו, ואם יש צורך, לבקש עזרה.',
+                 'וחשוב במיוחד: אל תימנע/י מלבקש עזרה אם הלב שלך אומר לך שאת/ה צריך/ה לעשות את זה או אם אנשים סביבך מייעצים לך לחפש הערכה אישית.'],
+         actions: [
             'כדאי לפנות ראשית לגורם הכי זמין – למשל רופא/ת המשפחה או עובד/ת סוציאלי/ת. כדאי לשמור את התוצאות בדף זה ולהשתמש בהן כדי לעזור בפנייתך.',
             ...baseActions,
           ],
         };
       default:
-        return { summary: '', actions: [] };
+        return { summary: [''], actions: [] };
     }
   }
 
-  public async exportToPdf(personalDetailsSummary?: Record<string, string | undefined>) {
-    return exportToPdf(this.summary, this.resultsVerbalSummary.summary, this.resultsVerbalSummary.actions,
-      this.resultsSymptomsString, personalDetailsSummary);
+  public async exportToPdf() {
+    return exportToPdf(this.summary.filter(questionaire => ![QuestionnaireNames.Derealization.toString(), QuestionnaireNames.Dissociation.toString()].includes(questionaire.questionnaireName)), this.resultsVerbalSummary.summary, this.resultsVerbalSummary.actions,
+      this.resultsSymptomsString);
   }
 
   private _getQuestionnaireSummaryScore(questionnaire: QuestionBase, score: number | string): number | string {

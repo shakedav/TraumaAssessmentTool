@@ -9,8 +9,9 @@ import { useDebugMode } from './hooks/useDebugMode';
 import { DebugResults } from './DebugResults';
 import { mobile, smallDesktop } from './styles/style.consts';
 
-export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsSummary, sendAnonymousResults }) => {
+export const Summary: React.FC<SummaryProps> = ({ resultsStore, sendAnonymousResults }) => {
   const isDangerousSituation = resultsStore.summary.some(item => item.isDangerousSituation);
+  const didPassThreshold= resultsStore.summary.some(item => item.didPassThreshold);
   const debugMode = useDebugMode();
   useEffect(() => {
     sendAnonymousResults && resultsStore.summary && sendAnonymousResults(resultsStore.summary);
@@ -21,16 +22,17 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
     logEvent('summary_page_visited', { resultCategory: resultsStore.secondStageResultCategory });
   }, [logEvent, resultsStore.secondStageResultCategory]);
 
-  const exportToPdf = (withPersonalDetails: boolean) => {
-    logEvent('export_to_pdf', { withPersonalDetails, resultCategory: resultsStore.secondStageResultCategory });
-    resultsStore.exportToPdf(withPersonalDetails ? personalDetailsSummary : undefined);
+  const exportToPdf = () => {
+    logEvent('export_to_pdf', { resultCategory: resultsStore.secondStageResultCategory });
+    resultsStore.exportToPdf();
   }
 
+  console.log('Store', JSON.stringify(resultsStore));
   return (
     <StyledSummaryContainer>
       {
         debugMode &&
-        <DebugResults resultsSummary={resultsStore.summary} personalDetailsSummary={personalDetailsSummary}/>
+        <DebugResults resultsSummary={resultsStore.summary}/>
       }
       <h1 className="margin-vertical-sm">תוצאות השאלונים:</h1>
       {
@@ -41,15 +43,25 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
         <SummaryTable questionnairesSummary={resultsStore.summary}/>
       </SummaryTableContainer>
       {isDangerousSituation && <StyledVerbalSummaryContainer>
-        <h1>טקסט חמור:</h1>
+        <h1>דיווחת על רמות מצוקה שמחייבות התייעצות והערכה מקצועית – וייתכן גם קבלת עזרה.</h1>
         <StyledUl>
-          כאן יבוא טקסט חמור על מצבים מסוכנים ומה צריך לעשות
+        <p>רופא המשפחה או המרפאה שלך הם הגורם הראשון אליו אפשר לפנות.</p>
+        <p>אנא השתמש בדו"ח הכתוב שתקבל בסיום ההערכה כדי ליידע את המטפל שלך (למשל, רופא המשפחה שלך) שאתה זקוק להערכה נוספת ולתמיכה מקצועית.</p>
+        <p>אם תזמון הערכה לוקח זמן, בינתיים עליך לנקוט פעולה לא לבודד את עצמך:</p>
+        <ul>
+            <li>ליצור מעורבות ולבלות זמן עם אנשים.</li>
+            <li>מצא מישהו שאתה סומך עליו איתו או איתה תוכל לשוחח בחופשיות - ותן לו או לה ללוות אותך.</li>
+            <li>במידת האפשר חזור/חזרי לעסוק בפעילויות - הן בעבודה והן בבילוי.</li>
+        </ul>
+        <p>הימנע שתיית אלכוהול ונטילת כדורי הרגעה על בסיס קבוע.</p>
+        <p>זכור/זכרי והזכירו לסובבים אתכם כי מצוקה קשה היא מוגבלת בזמן, וכאב חריף נעלם עם הזמן.</p>
+        <p>אבל אם אינך יכול/ה יותר לסבול את הסימפטומים שלך, בקש/י עזרה מיידית (למשל באמצעות שירותי חירום). שירותים אלה יודעים להקל על כאב נפשי חריף ויכולים לתכנן המשך טיפול. אין כל צורך ולא נכון לסבול לבד. ייאוש הוא יועץ גרוע ומטעה.</p>
         </StyledUl>
       </StyledVerbalSummaryContainer>}
       <StyledVerbalSummaryContainer>
         <h1>סיכום והמלצות:</h1>
         {
-          resultsStore.resultsSymptoms?.length &&
+          resultsStore.resultsSymptoms?.length > 0 &&
           <>
             <span className="semi-bold">
             כפי שניתן לראות בטבלה דיווחת על רמות מצוקה גבוהות בכמה אזורים, ובהם:
@@ -64,7 +76,12 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
           </>
         }
         <div className="margin-bottom-xl margin-top-m">
-          {resultsStore.resultsVerbalSummary.summary}
+          {resultsStore.resultsVerbalSummary.summaryTitle}
+          <StyledUl>
+              {resultsStore.resultsVerbalSummary.summary.map((line, index) => (
+                  <li key={index}>{line}</li>
+              ))}
+          </StyledUl>
           {
             resultsStore.phq8SuicidalPositive &&
             <div className="margin-vertical-ml">
@@ -100,17 +117,15 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
                 );
               })
             }
+            {didPassThreshold && <li>להוסיף הפניה ליחידה לתגובות קרב / לאגף השיקום</li>}
           </StyledUl>
         </div>
       </StyledVerbalSummaryContainer>
       <StyledButtonsContainer>
         <StyledSaveButton appearance="primary" size="large" shape="circular" className="full-width"
-                onClick={() => exportToPdf(true)}>
+                onClick={() => exportToPdf()}>
           שמור תוצאות כ-PDF
         </StyledSaveButton>
-        <StyledButton appearance="primary" size="large" shape="circular" onClick={() => exportToPdf(false)}>
-          שמור ללא פרטים מזהים
-        </StyledButton>
       </StyledButtonsContainer>
     </StyledSummaryContainer>
   );
@@ -118,7 +133,6 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, personalDetailsS
 
 export type SummaryProps = {
   resultsStore: ResultsStore;
-  personalDetailsSummary: Record<string, string | undefined>;
   sendAnonymousResults?: (questionnaireResults: QuestionnairesSummary) => void;
 }
 

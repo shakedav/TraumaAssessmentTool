@@ -29,15 +29,15 @@ export const QuestionnaireNames = {
 export type QuestionnaireName = typeof QuestionnaireNames[keyof typeof QuestionnaireNames];
 
 export const QUESTIONNAIRE_NAME_TO_PURPOSE: Partial<Record<QuestionnaireName, string>> = {
-  [QuestionnaireNames.CGI]: 'מצוקה',
-  [QuestionnaireNames.K5]: 'מצוקה',
   [QuestionnaireNames.Dissociation]: 'דיסוציאציה',
-  [QuestionnaireNames.Derealization]: 'דיסוציאציה',
+  [QuestionnaireNames.Derealization]: 'דיריאליזציה',
+  [QuestionnaireNames.CGI]: 'תפיסה עצמית של חומרת המצב',
+  [QuestionnaireNames.K5]: 'דיווח מצוקה',
   [QuestionnaireNames.SAST]: 'מתח וחרדה',
-  [QuestionnaireNames.PCL_5]: 'סימני PTSD (מלא)',
-  [QuestionnaireNames.GAD_7]: 'שאלון חרדה (מלא)',
-  [QuestionnaireNames.PHQ_8]: 'שאלון דיכאון (מלא)',
-  [QuestionnaireNames.WANT_HELP]: 'מצוקה כללית',
+  [QuestionnaireNames.PCL_5]: 'סימני PTSD',
+  [QuestionnaireNames.GAD_7]: 'שאלון חרדה',
+  [QuestionnaireNames.PHQ_8]: 'שאלון דיכאון',
+  [QuestionnaireNames.WANT_HELP]: 'רצון בקבלת עזרה',
   [QuestionnaireNames.CSE]: 'התמודדות יעילה'
 
 }
@@ -45,8 +45,6 @@ export const QUESTIONNAIRE_NAME_TO_PURPOSE: Partial<Record<QuestionnaireName, st
 export const QUESTIONNAIRE_NAME_TO_ELEMENT: Partial<Record<QuestionnaireName, string>> = {
   [QuestionnaireNames.CGI]: 'מצוקה כללית',
   [QuestionnaireNames.K5]: 'מצוקה',
-  [QuestionnaireNames.Dissociation]: 'דיסוציאציה',
-  [QuestionnaireNames.Derealization]: 'דיסוציאציה',
   [QuestionnaireNames.SAST]: 'מתח',
   [QuestionnaireNames.PCL_5]: 'פוסט־טראומה',
   [QuestionnaireNames.GAD_7]: 'חרדה',
@@ -56,14 +54,14 @@ export const QUESTIONNAIRE_NAME_TO_ELEMENT: Partial<Record<QuestionnaireName, st
 }
 
 export const QUESTIONNAIRE_NAME_TO_SYMPTOMS: Partial<Record<QuestionnaireName, string>> = {
-  [QuestionnaireNames.Dissociation]: 'אובדן קשר עם מה שקורה לך או סביבך',
-  [QuestionnaireNames.Derealization]: 'אובדן קשר עם מה שקורה לך או סביבך',
+  [QuestionnaireNames.Dissociation]: 'לפעמים יש לך תחושת ריחוק או ניתוק ממה שקורה סביבך.',
   [QuestionnaireNames.SAST]: 'אי־שקט ומצב רוח רע',
-  [QuestionnaireNames.PCL_5]: 'סימני פוסט־טראומה',
-  [QuestionnaireNames.GAD_7]: 'חרדה',
-  [QuestionnaireNames.PHQ_8]: 'עצב או דיכאון',
-  [QuestionnaireNames.WANT_HELP]: 'רצון בייעוץ או טיפול',
-  [QuestionnaireNames.CSE]: 'התמודדות יעילה'
+  [QuestionnaireNames.K5]: 'הנך חווה כיום מצוקה משמעותית. כדאי לנסות לזהות את מקורות המצוקה שלך ולהפחית אותם בעצמך, בעזרת אחרים (חברים ומשפחה) או לחלופין בעזרת איש/אשת מקצוע. חשוב לא להשאיר אזורי מצוקה ללא התערבות.',
+  [QuestionnaireNames.PCL_5]: 'הנך חווה מצבי מצוקה הקשורים לאירועים שעברת.',
+  [QuestionnaireNames.GAD_7]: 'יש לך חוויית חרדה משמעותית.',
+  [QuestionnaireNames.PHQ_8]: 'הנך חווה עצב ומצב רוח ירוד.',
+  [QuestionnaireNames.WANT_HELP]: 'יש לך רצון בייעוץ או הדרכה אישית. חשוב לא לדחות זאת.',
+  [QuestionnaireNames.CSE]: 'הנך מנסה להתמודד עם אתגרי החיים, אך עדיין מתקשה בביצוע מטלות , אינך מרוצה מעצמך, אינך חווה הצלחה בשליטה ברגשות או שהנך מתקשה להיות בקשרים רגשיים עם אחרים.לעתים קרובות הקשיים האלו מתפוגגים עם הזמן והכניסה לחיים פעילים. אם זה לא קורה, כדאי לנסות לזהות את הסיבות למצוקה ולצמצם אותן, בעצמך או דרך שיחות עם חברים ומשפחה. לפעמים לוקח זמן לחזור לשגרה, אבל אם מבטאים ומתייחסים למצוקה זמן זה מתקצר'
 }
 
 export const PHQ8SuicidalQuestionIndex = 7;

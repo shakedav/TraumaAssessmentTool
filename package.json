@@ -5,6 +5,7 @@
   "scripts": {
     "start": "cross-env PORT=3006 react-scripts start",
     "buildWithQuestions": "react-scripts build && node pushQuestions.js",
+    "deploy": "firebase deploy --only hosting",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -59,6 +60,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "cypress": "^13.6.4",
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.1",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.7"
   }
 }

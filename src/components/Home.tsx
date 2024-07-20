@@ -10,6 +10,7 @@ import { useQuestions } from './hooks/useQuestions';
 import { FirstSectionIntro } from './FirstSectionIntro';
 import { CompletedSecondSection } from './CompletedSecondSection';
 import { useAnonymousResults } from './hooks/useAnonymousResults';
+import { useSearchParams } from 'react-router-dom';
 
 export const Home: React.FC = observer(() => {
 
@@ -17,10 +18,13 @@ export const Home: React.FC = observer(() => {
   const questions = useQuestions();
   const { optOutOfAnonymousDataCollection, sendAnonymousResults } = useAnonymousResults();
   const [appStateStore, setAppStateStore] = useState<ApplicationStateStore>();
+  const [searchParams,] = useSearchParams();
 
   useEffect(() => {
+    const idFromUrl = searchParams.get("externalId");
+    console.log(idFromUrl);
     if (questions) {
-      setAppStateStore(new ApplicationStateStore(questions));
+      setAppStateStore(new ApplicationStateStore(questions, idFromUrl));
     }
   }, [questions]);
 

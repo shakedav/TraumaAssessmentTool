@@ -11,7 +11,7 @@ export class QuestionnairesStore {
   questionnaireScores = Array<{ score: number | string; didPassThreshold: boolean; isDangerousSituation: boolean; }>(this.questions.length);
   questionnairesStates = Array<unknown>(this.questions.length);
   skippedSecondSection: boolean = false;
-
+  
   constructor(public skipToSummary: () => void, private completedQuestionnaires: () => void, public questions: QuestionBase[]) {
     makeAutoObservable(this);
   }

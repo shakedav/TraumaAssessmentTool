@@ -28,10 +28,13 @@ export class ApplicationStateStore {
 
   step: APPLICATION_STEP = APPLICATION_STEP.WELCOME;
 
-  constructor(questionnaires: QuestionBase[]) {
+  externalId: string;
+
+  constructor(questionnaires: QuestionBase[], externalId) {
     makeAutoObservable(this)
     this.questionnairesStore = new QuestionnairesStore(this.goToSummary.bind(this), this.next.bind(this), questionnaires);
     this.resultsStore = new ResultsStore(this.questionnairesStore);
+    this.externalId = externalId;
   }
 
   @computed

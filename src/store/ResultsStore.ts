@@ -12,7 +12,6 @@ import {
   PHQ8SuicidalQuestionThreshold,
   QuestionnaireNames
 } from '../data/data.consts';
-import { JsxElement } from 'typescript';
 
 export class ResultsStore {
 

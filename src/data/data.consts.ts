@@ -21,7 +21,7 @@ export const QuestionnaireNames = {
   PCL_5: 'PCL-5',
   GAD_7: 'GAD-7',
   PHQ_8: 'PHQ-8',
-  WANT_HELP: 'צורך/רצון בעזרה מקצועית',
+  Assistance: 'Assistance',
   EXTRA_INFO: 'מידע נוסף',
   CSE: 'CSE'
 } as const;
@@ -37,7 +37,7 @@ export const QUESTIONNAIRE_NAME_TO_PURPOSE: Partial<Record<QuestionnaireName, st
   [QuestionnaireNames.PCL_5]: 'סימני PTSD',
   [QuestionnaireNames.GAD_7]: 'שאלון חרדה',
   [QuestionnaireNames.PHQ_8]: 'שאלון דיכאון',
-  [QuestionnaireNames.WANT_HELP]: 'רצון בקבלת עזרה',
+  [QuestionnaireNames.Assistance]: 'רצון בקבלת עזרה',
   [QuestionnaireNames.CSE]: 'התמודדות יעילה'
 
 }
@@ -49,7 +49,7 @@ export const QUESTIONNAIRE_NAME_TO_ELEMENT: Partial<Record<QuestionnaireName, st
   [QuestionnaireNames.PCL_5]: 'פוסט־טראומה',
   [QuestionnaireNames.GAD_7]: 'חרדה',
   [QuestionnaireNames.PHQ_8]: 'דיכאון',
-  [QuestionnaireNames.WANT_HELP]: 'מצוקה',
+  [QuestionnaireNames.Assistance]: 'מצוקה',
   [QuestionnaireNames.CSE]: 'התמודדות יעילה'
 }
 
@@ -60,7 +60,7 @@ export const QUESTIONNAIRE_NAME_TO_SYMPTOMS: Partial<Record<QuestionnaireName, s
   [QuestionnaireNames.PCL_5]: 'הנך חווה מצבי מצוקה הקשורים לאירועים שעברת.',
   [QuestionnaireNames.GAD_7]: 'יש לך חוויית חרדה משמעותית.',
   [QuestionnaireNames.PHQ_8]: 'הנך חווה עצב ומצב רוח ירוד.',
-  [QuestionnaireNames.WANT_HELP]: 'יש לך רצון בייעוץ או הדרכה אישית. חשוב לא לדחות זאת.',
+  [QuestionnaireNames.Assistance]: 'יש לך רצון בייעוץ או הדרכה אישית. חשוב לא לדחות זאת.',
   [QuestionnaireNames.CSE]: 'הנך מנסה להתמודד עם אתגרי החיים, אך עדיין מתקשה בביצוע מטלות , אינך מרוצה מעצמך, אינך חווה הצלחה בשליטה ברגשות או שהנך מתקשה להיות בקשרים רגשיים עם אחרים.לעתים קרובות הקשיים האלו מתפוגגים עם הזמן והכניסה לחיים פעילים. אם זה לא קורה, כדאי לנסות לזהות את הסיבות למצוקה ולצמצם אותן, בעצמך או דרך שיחות עם חברים ומשפחה. לפעמים לוקח זמן לחזור לשגרה, אבל אם מבטאים ומתייחסים למצוקה זמן זה מתקצר'
 }
 

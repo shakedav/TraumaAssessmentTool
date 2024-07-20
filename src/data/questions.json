@@ -193,11 +193,11 @@
     "answers": [
       {
         "label": "כלל לא",
-        "value": 0
+        "value": 4
       },
       {
         "label": "בקושי",
-        "value": 1
+        "value": 3
       },
       {
         "label": "לא רע",
@@ -205,11 +205,11 @@
       },
       {
         "label": "טוב",
-        "value": 3
+        "value": 1
       },
       {
         "label": "מצוין",
-        "value": 4
+        "value": 0
       }
     ]
   },

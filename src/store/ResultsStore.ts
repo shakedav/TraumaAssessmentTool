@@ -53,7 +53,7 @@ export class ResultsStore {
     // Negative if all questionnaires are under the threshold
     // Slightly positive if 1-2 questionnaires are not more than 20% over the threshold
     // Positive else
-    if (this.questionnairesOverThreshold.length === 0 || this.questionnairesStore.skippedSecondSection) {
+    if (this.questionnairesOverThreshold.length === 0) {
       return SECOND_STAGE_RESULT_CATEGORY.NEGATIVE;
     }
     if (this.questionnairesOverThreshold.length < 3) {
@@ -144,13 +144,13 @@ export class ResultsStore {
     ];
     switch (this.secondStageResultCategory) {
       case SECOND_STAGE_RESULT_CATEGORY.NEGATIVE:
-        if (this.questionnairesStore.skippedSecondSection) {
-          return {
-            summary: ['הסימנים עליהם דיווחת דומים לאלה שרוב האנשים מרגישים. הם אינם מדאיגים ויחלפו עם הזמן וכאשר האירועים יירגעו, ונראה שאינך זקוק/ה לעזרה טיפולית כרגע. ' +
-              'יש לך כוח היום לעזור לאחרים, לשמור על שיגרת החיים, לתת למי שצריך או צריכה, וגם לנהל חיים בריאים. '],
-            actions: negativeActions,
-          }
-        }
+        // if (this.questionnairesStore.skippedSecondSection) {
+        //   return {
+        //     summary: ['הסימנים עליהם דיווחת דומים לאלה שרוב האנשים מרגישים. הם אינם מדאיגים ויחלפו עם הזמן וכאשר האירועים יירגעו, ונראה שאינך זקוק/ה לעזרה טיפולית כרגע. ' +
+        //       'יש לך כוח היום לעזור לאחרים, לשמור על שיגרת החיים, לתת למי שצריך או צריכה, וגם לנהל חיים בריאים. '],
+        //     actions: negativeActions,
+        //   }
+        // }
         return {
           summary: ['דיווחת על רמות מצוקה, שאופייניות להרבה אנשים שעברו התנסויות כמו אלה שלך. לידיעתך: רוב האנשים המדווחים על רמות מצוקה כמו שלך יכולים לקבל מספיק תמיכה ועידוד מחברים ומהמשפחה, להיעזר על ידי תחושת מטרה לעזור לאחרים ולאחר מכן לחזור לחיים בריאים. אנו ממליצים לך לחזור ולבצע את ההערכה שכרגע גמרת כל כמה זמן כדי לעקוב אחרי מצבך.'],
           actions: negativeActions,

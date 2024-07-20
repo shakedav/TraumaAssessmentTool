@@ -1,13 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFirebase } from './hooks/useFirebase';
 import { StickyBottomButtonPage } from './StickyButtonPage';
-import { Button, Divider } from '@fluentui/react-components';
+import { Button, Divider, Checkbox } from '@fluentui/react-components';
 import { ChevronLeft24Filled } from '@fluentui/react-icons';
 import { mobile, smallDesktop } from './styles/style.consts';
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextClicked }) => {
+  const [optOut, setOptOut] = useState<boolean>(false);
 
   const { logEvent } = useFirebase();
   useEffect(() => {
@@ -21,18 +22,18 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextCli
           <StyledImage className="full-width" src="/blue-male.png"/>
         </RightColumn>
         <LeftColumn>
-          <StickyBottomButtonPage className="full-height" buttonText={'התחלה'} onButtonClick={onNextClicked} smallScreenOnly>
+          <StickyBottomButtonPage className="full-height" buttonText={'התחלה'} onButtonClick={() => onNextClicked} smallScreenOnly>
             <div className="flex-column space-between flex-1">
               <div className="flex-column">
-                <StyledHeader>כלי אבחון עצמי של פוסט־טראומה בישראל 2024</StyledHeader>
+                <StyledHeader>שאלון סיוע למשוחררים ומשוחררות מ"חרבות ברזל"</StyledHeader>
                 <p>
                   {
-                    'השבעה באוקטובר הוא אירוע שחותמו טבוע בכולנו, בעיקר במי שחזרו מלחימה או ששירתו בעורף במלחמת חרבות ברזל. לא תמיד קל לחזור מאירוע קיצוני כזה אל שגרת החיים הקודמת, ובדיוק בשביל זה אנחנו כאן. כדי לתת את העזרה הנכונה צריך להעריך נכון את אופי הרגשות הקשים ועוצמתם, ולכך נועדו השאלות הבאות. מאז השבעה באוקטובר סביר להניח שהתנסית, כמו כולנו, בחוויות קשות, חרדות, דאגה ואירועים מטרידים. חלקנו חווינו טראומה באופן מיידי וישיר, וחלקנו באופן עקיף דרך הקרובים והחברים, ובשגרת החיים שהשתבשה. התגובות למצב עשויות להיות קשות, וחשוב לקבל הדרכה או עזרה.'
+                    'השבעה באוקטובר הוא אירוע שחותמו טבוע בכולנו, בעיקר במי שחזרו מלחימה או ששירתו בעורף במלחמת חרבות ברזל. לא תמיד קל לחזור מאירוע קיצוני כזה אל שגרת החיים הקודמת, ובדיוק בשביל זה אנחנו כאן. כדי לתת את העזרה הנכונה צריך להעריך נכון את אופי הרגשות הקשים ועוצמתם, ולכך נועדו השאלות הבאות. '
                   }
                 </p>
                 <p>
                   {
-                    'יש כאן 48 שאלות קצרות של כן /לא,  ובסופן מחכות לך המלצות מדויקות לסיוע: השקעה נהדרת בעצמך (אגב: גילינו שלפעמים אפילו עצם המענה על השאלון מרגיע ומקל, בכך שהוא מאפשר מבט פנימה). לפניך שאלונים שבעזרתם תוכל/י להעריך את עוצמת תגובותיך ואם יש צורך בעזרה מקצועית. ייתכן שאפילו מילוי השאלונים לכשעצמו יעזור לך להתבונן פנימה ולזהות תגובות שצריך להתמודד איתן.'
+                    'יש כאן 48 שאלות קצרות של כן /לא,  ובסופן מחכות לך המלצות מדויקות לסיוע: השקעה נהדרת בעצמך (אגב: גילינו שלפעמים אפילו עצם המענה על השאלון מרגיע ומקל, בכך שהוא מאפשר מבט פנימה).'
                   }
                 </p>
                 {
@@ -42,20 +43,15 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextCli
               <StyledTextContainer>
                 <Divider className="margin-top-xl" appearance="brand"/>
                 <ButtonContainer className="flex-row space-between align-center">
-                  {/* <div className="flex-column">
-                    <StyledH2>למי מיועד הכלי?</StyledH2>
-                    הכלי נועד לכל אדם שחווה תגובות קשות לאירועים טראומטיים, ובמיוחד:
-                    <StyledUl>
-                      <li>אם חווית בעצמך אירוע טראומטי.</li>
-                      <li>אם קרובים או מכרים שלך עברו אירוע טראומטי.</li>
-                      <li>אם את/ה מרגיש/ה מצוקה כתוצאה מאירועי המלחמה והמצב.</li>
-                    </StyledUl>
-                  </div> */}
-                  <StyledButton appearance="primary" size="large" shape="circular" onClick={onNextClicked}
+                  <StyledButton appearance="primary" size="large" shape="circular" onClick={() => onNextClicked(optOut)}
                                 icon={<ChevronLeft24Filled/>} iconPosition="after">
                     שנתחיל?
                   </StyledButton>
                 </ButtonContainer>
+                <div className="full-width align-text-center">
+                    <Checkbox label="אני מאשר/ת איסוף מידע אנונימי לצרכי מחקר ושיפור כלי זה" checked={!optOut}
+                              onChange={() => setOptOut(!optOut)}/>
+                  </div>
                 <Divider className="margin-bottom-xl" appearance="brand"/>
               </StyledTextContainer>
             </div>
@@ -73,7 +69,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextCli
 });
 
 export type WelcomeScreenProps = {
-  onNextClicked: () => void;
+  onNextClicked: (optOut: boolean) => void;
 }
 
 const StyledHeader = styled.h1`

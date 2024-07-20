@@ -7,7 +7,6 @@ import { observer } from 'mobx-react-lite'
 import { AppCommandBar } from './AppCommandBar';
 import { Spinner } from '@fluentui/react-components';
 import { useQuestions } from './hooks/useQuestions';
-import { FirstSectionIntro } from './FirstSectionIntro';
 import { CompletedSecondSection } from './CompletedSecondSection';
 import { useAnonymousResults } from './hooks/useAnonymousResults';
 import { useSearchParams } from 'react-router-dom';
@@ -48,11 +47,7 @@ export const Home: React.FC = observer(() => {
           }
           {
             appStateStore.step === APPLICATION_STEP.WELCOME &&
-            <WelcomeScreen onNextClicked={nextAndScrollToTop}/>
-          }         
-          {
-            appStateStore.step === APPLICATION_STEP.FIRST_SECTION_INTRO &&
-            <FirstSectionIntro onNextClicked={(optOut: boolean) => {
+            <WelcomeScreen onNextClicked={(optOut: boolean) => {
               if (optOut) {
                 optOutOfAnonymousDataCollection();
               }

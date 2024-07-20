@@ -7,7 +7,6 @@ import { QuestionnaireTypes } from '../data/data.consts';
 
 export enum APPLICATION_STEP {
   WELCOME = 'WELCOME',
-  FIRST_SECTION_INTRO = 'FIRST_SECTION_INTRO',
   QUESTIONNAIRES = 'QUESTIONNAIRES',
   COMPLETED_QUESTIONNAIRES = 'COMPLETED_QUESTIONNAIRES',
   SUMMARY = 'SUMMARY',
@@ -15,7 +14,6 @@ export enum APPLICATION_STEP {
 
 const APPLICATION_STEPS = [
   APPLICATION_STEP.WELCOME,
-  APPLICATION_STEP.FIRST_SECTION_INTRO,
   APPLICATION_STEP.QUESTIONNAIRES,
   APPLICATION_STEP.COMPLETED_QUESTIONNAIRES,
   APPLICATION_STEP.SUMMARY,
@@ -41,9 +39,7 @@ export class ApplicationStateStore {
   get stepDisplayName() {
     switch (this.step) {
       case APPLICATION_STEP.WELCOME:
-        return 'התחלה';
-      case APPLICATION_STEP.FIRST_SECTION_INTRO:
-        return 'מבוא';
+        return 'התחלה';      
       case APPLICATION_STEP.QUESTIONNAIRES:
         return this.questionnairesStore.stepDisplayName;
       case APPLICATION_STEP.SUMMARY:
@@ -66,7 +62,7 @@ export class ApplicationStateStore {
   back() {
     if (this.step === APPLICATION_STEP.QUESTIONNAIRES && this.questionnairesStore.questionnaireIndex !== 0) {
       this.questionnairesStore.previousQuestion();
-    } else if (this.step === APPLICATION_STEP.SUMMARY && this.questionnairesStore.skippedSecondSection) {
+    } else if (this.step === APPLICATION_STEP.SUMMARY) {
       this.step = APPLICATION_STEP.QUESTIONNAIRES;
     } else {
       const currentIndex = APPLICATION_STEPS.indexOf(this.step);

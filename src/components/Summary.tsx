@@ -98,9 +98,11 @@ export const Summary: React.FC<SummaryProps> = ({ resultsStore, sendAnonymousRes
           <StyledVerbalSummaryContainer>
             <StyledUl>
               <p>
-                בדף הבית של תוכנית עמית מוצע לך סל  פעילויות שיכולות להקל עליך ולחזק אותך: אימונים, סדנאות וטיולי גוף-נפש (ועוד המון), כולן חינמיות כהוקרה על השירות שלך, וכולן נועדו לעזור לך בחזרה לשגרה טובה. מזמינים אותך לשם, כדי לבחור את הפעילויות שמתאימות לך. 
-                <StyledButton onClick={()=> alert('ניווט לדף הבית של עמית')}>קחו אותי לתוכנית עמית</StyledButton>
+                בדף הבית של תוכנית עמית מוצע לך סל  פעילויות שיכולות להקל עליך ולחזק אותך: אימונים, סדנאות וטיולי גוף-נפש (ועוד המון), כולן חינמיות כהוקרה על השירות שלך, וכולן נועדו לעזור לך בחזרה לשגרה טובה. מזמינים אותך לשם, כדי לבחור את הפעילויות שמתאימות לך.                 
               </p>
+              <StyledButtonsContainer>
+                <StyledButton onClick={()=> alert('ניווט לדף הבית של עמית')}>קחו אותי לתוכנית עמית</StyledButton>
+              </StyledButtonsContainer>
             </StyledUl>
           </StyledVerbalSummaryContainer>
           <h1>מה עכשיו?</h1>

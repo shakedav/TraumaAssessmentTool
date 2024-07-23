@@ -22,7 +22,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextCli
           <StyledImage className="full-width" src="/blue-male.png"/>
         </RightColumn>
         <LeftColumn>
-          <StickyBottomButtonPage className="full-height" buttonText={'התחלה'} onButtonClick={() => onNextClicked} smallScreenOnly>
+          <StickyBottomButtonPage className="full-height" buttonText={'התחלה'} onButtonClick={() => onNextClicked(optOut)} smallScreenOnly>
             <div className="flex-column space-between flex-1">
               <div className="flex-column">
                 <StyledHeader>שאלון סיוע למשוחררים ומשוחררות מ"חרבות ברזל"</StyledHeader>

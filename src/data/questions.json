@@ -193,23 +193,23 @@
     "answers": [
       {
         "label": "כלל לא",
-        "value": 4
+        "value": 5
       },
       {
         "label": "בקושי",
-        "value": 3
+        "value": 4
       },
       {
         "label": "לא רע",
-        "value": 2
+        "value": 3
       },
       {
         "label": "טוב",
-        "value": 1
+        "value": 2
       },
       {
         "label": "מצוין",
-        "value": 0
+        "value": 1
       }
     ]
   },

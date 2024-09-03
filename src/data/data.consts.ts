@@ -23,7 +23,11 @@ export const QuestionnaireNames = {
   PHQ_8: 'PHQ-8',
   Assistance: 'Assistance',
   EXTRA_INFO: 'מידע נוסף',
-  CSE: 'CSE'
+  CSE1: 'CSE1',
+  CSE2: 'CSE2',
+  CSE3: 'CSE3',
+  CSE4: 'CSE4',
+  CSE5: 'CSE5',
 } as const;
 
 export type QuestionnaireName = typeof QuestionnaireNames[keyof typeof QuestionnaireNames];
@@ -38,7 +42,7 @@ export const QUESTIONNAIRE_NAME_TO_PURPOSE: Partial<Record<QuestionnaireName, st
   [QuestionnaireNames.GAD_7]: 'שאלון חרדה',
   [QuestionnaireNames.PHQ_8]: 'שאלון דיכאון',
   [QuestionnaireNames.Assistance]: 'רצון בקבלת עזרה',
-  [QuestionnaireNames.CSE]: 'התמודדות יעילה'
+  // [QuestionnaireNames.CSE]: 'התמודדות יעילה'
 
 }
 
@@ -50,7 +54,7 @@ export const QUESTIONNAIRE_NAME_TO_ELEMENT: Partial<Record<QuestionnaireName, st
   [QuestionnaireNames.GAD_7]: 'חרדה',
   [QuestionnaireNames.PHQ_8]: 'דיכאון',
   [QuestionnaireNames.Assistance]: 'מצוקה',
-  [QuestionnaireNames.CSE]: 'התמודדות יעילה'
+  // [QuestionnaireNames.CSE]: 'התמודדות יעילה'
 }
 
 export const QUESTIONNAIRE_NAME_TO_SYMPTOMS: Partial<Record<QuestionnaireName, string>> = {
@@ -61,7 +65,7 @@ export const QUESTIONNAIRE_NAME_TO_SYMPTOMS: Partial<Record<QuestionnaireName, s
   [QuestionnaireNames.GAD_7]: 'יש לך חוויית חרדה משמעותית.',
   [QuestionnaireNames.PHQ_8]: 'הנך חווה עצב ומצב רוח ירוד.',
   [QuestionnaireNames.Assistance]: 'יש לך רצון בייעוץ או הדרכה אישית. חשוב לא לדחות זאת.',
-  [QuestionnaireNames.CSE]: 'הנך מנסה להתמודד עם אתגרי החיים, אך עדיין מתקשה בביצוע מטלות , אינך מרוצה מעצמך, אינך חווה הצלחה בשליטה ברגשות או שהנך מתקשה להיות בקשרים רגשיים עם אחרים.לעתים קרובות הקשיים האלו מתפוגגים עם הזמן והכניסה לחיים פעילים. אם זה לא קורה, כדאי לנסות לזהות את הסיבות למצוקה ולצמצם אותן, בעצמך או דרך שיחות עם חברים ומשפחה. לפעמים לוקח זמן לחזור לשגרה, אבל אם מבטאים ומתייחסים למצוקה זמן זה מתקצר'
+  // [QuestionnaireNames.CSE]: 'הנך מנסה להתמודד עם אתגרי החיים, אך עדיין מתקשה בביצוע מטלות , אינך מרוצה מעצמך, אינך חווה הצלחה בשליטה ברגשות או שהנך מתקשה להיות בקשרים רגשיים עם אחרים.לעתים קרובות הקשיים האלו מתפוגגים עם הזמן והכניסה לחיים פעילים. אם זה לא קורה, כדאי לנסות לזהות את הסיבות למצוקה ולצמצם אותן, בעצמך או דרך שיחות עם חברים ומשפחה. לפעמים לוקח זמן לחזור לשגרה, אבל אם מבטאים ומתייחסים למצוקה זמן זה מתקצר'
 }
 
 export const PHQ8SuicidalQuestionIndex = 7;

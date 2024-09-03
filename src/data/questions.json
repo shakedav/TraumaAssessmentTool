@@ -179,25 +179,24 @@
     ]
   },
   {
-    "questionnaire": "CSE",
+    "questionnaire": "CSE1",
     "questionnaireType": "discrete-scale",
     "minThreshold": 3,
     "maxThreshold": 5,
+    "min": 1,
+    "max": 5,
     "questionTitle": "סמן את מידת ההסכמה שלך עם המשפטים הבאים",
     "questions": [
-      "באיזו מידה אתה מצליח לתפקד במישורי החיים השונים (למשל- בית/חברים/עבודה)",
-      "עד כמה אתה מצליח לשלוט ברגשותיך ולא נותן להם לשלוט בך",
-      "באיזו מידה הקשר שלך עם אחרים חם, קרוב, ומשמעותי",
-      "כמה טוב אתה מרגיש עם עצמך"      
+      "באיזו מידה אתה מצליח לתפקד במישורי החיים השונים (למשל- בית/חברים/עבודה)"     
     ],
     "answers": [
       {
         "label": "כלל לא",
-        "value": 5
+        "value": 1
       },
       {
         "label": "בקושי",
-        "value": 4
+        "value": 2
       },
       {
         "label": "לא רע",
@@ -205,11 +204,113 @@
       },
       {
         "label": "טוב",
-        "value": 2
+        "value": 4
       },
       {
         "label": "מצוין",
+        "value": 5
+      }
+    ]
+  },
+  {
+    "questionnaire": "CSE2",
+    "questionnaireType": "discrete-scale",
+    "minThreshold": 3,
+    "maxThreshold": 5,
+    "min": 1,
+    "max": 5,
+    "questionTitle": "סמן את מידת ההסכמה שלך עם המשפטים הבאים",
+    "questions": [
+      "עד כמה אתה מצליח לשלוט ברגשותיך ולא נותן להם לשלוט בך"
+    ],
+    "answers": [
+      {
+        "label": "כלל לא",
         "value": 1
+      },
+      {
+        "label": "בקושי",
+        "value": 2
+      },
+      {
+        "label": "לא רע",
+        "value": 3
+      },
+      {
+        "label": "טוב",
+        "value": 4
+      },
+      {
+        "label": "מצוין",
+        "value": 5
+      }
+    ]
+  },
+  {
+    "questionnaire": "CSE3",
+    "questionnaireType": "discrete-scale",
+    "minThreshold": 3,
+    "maxThreshold": 5,
+    "min": 1,
+    "max": 5,
+    "questionTitle": "סמן את מידת ההסכמה שלך עם המשפטים הבאים",
+    "questions": [
+      "באיזו מידה הקשר שלך עם אחרים חם, קרוב, ומשמעותי"
+    ],
+    "answers": [
+      {
+        "label": "כלל לא",
+        "value": 1
+      },
+      {
+        "label": "בקושי",
+        "value": 2
+      },
+      {
+        "label": "לא רע",
+        "value": 3
+      },
+      {
+        "label": "טוב",
+        "value": 4
+      },
+      {
+        "label": "מצוין",
+        "value": 5
+      }
+    ]
+  },
+  {
+    "questionnaire": "CSE4",
+    "questionnaireType": "discrete-scale",
+    "minThreshold": 3,
+    "maxThreshold": 5,
+    "min": 1,
+    "max": 5,
+    "questionTitle": "סמן את מידת ההסכמה שלך עם המשפטים הבאים",
+    "questions": [    
+      "כמה טוב אתה מרגיש עם עצמך"      
+    ],
+    "answers": [
+      {
+        "label": "כלל לא",
+        "value": 1
+      },
+      {
+        "label": "בקושי",
+        "value": 2
+      },
+      {
+        "label": "לא רע",
+        "value": 3
+      },
+      {
+        "label": "טוב",
+        "value": 4
+      },
+      {
+        "label": "מצוין",
+        "value": 5
       }
     ]
   },

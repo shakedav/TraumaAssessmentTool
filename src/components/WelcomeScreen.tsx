@@ -7,6 +7,8 @@ import { Button, Divider, Checkbox } from '@fluentui/react-components';
 import { ChevronLeft24Filled } from '@fluentui/react-icons';
 import { mobile, smallDesktop } from './styles/style.consts';
 
+const StartButtonText = 'שנתחיל?';
+
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextClicked }) => {
   const [optOut, setOptOut] = useState<boolean>(false);
 
@@ -22,47 +24,53 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(({ onNextCli
           <StyledImage className="full-width" src="/blue-male.png"/>
         </RightColumn>
         <LeftColumn>
-          <StickyBottomButtonPage className="full-height" buttonText={'התחלה'} onButtonClick={() => onNextClicked(optOut)} smallScreenOnly>
+          <StickyBottomButtonPage className="full-height" buttonText={StartButtonText} onButtonClick={() => onNextClicked(optOut)} smallScreenOnly>
             <div className="flex-column space-between flex-1">
               <div className="flex-column">
-                <StyledHeader>שאלון סיוע למשוחררים ומשוחררות מ"חרבות ברזל"</StyledHeader>
+                <StyledHeader>שאלון לבדיקה עצמית של תוכנית עמית</StyledHeader>
                 <p>
-                  {
-                    'השבעה באוקטובר הוא אירוע שחותמו טבוע בכולנו, בעיקר במי שחזרו מלחימה או ששירתו בעורף במלחמת חרבות ברזל. לא תמיד קל לחזור מאירוע קיצוני כזה אל שגרת החיים הקודמת, ובדיוק בשביל זה אנחנו כאן. כדי לתת את העזרה הנכונה צריך להעריך נכון את אופי הרגשות הקשים ועוצמתם, ולכך נועדו השאלות הבאות. '
-                  }
+                  החזרה לשגרה אחרי ימים של מלחמה, בחזית ובעורף, היא לא קלה. לפעמים צריך ליווי, עזרה וחיזוק - ולכן אנחנו כאן. כדי לתת לך את העזרה שתתאים לך צריך לדעת היכן מופיעים הקשיים שלך ומהי עוצמתם; לכך נועד השאלון הבא, שפותח בחסות ובמעורבות המועצה הלאומית לפוסט טראומה. <br />
+                  בסופו מחכה לך הערכת מצב וגם המלצות מדויקות לסיוע. <br />
+                  זמן המענה על השאלות הוא לא ארוך במיוחד, ובתמורה אפשר לקבל המון. זוהי השקעה נהדרת בעצמך.
                 </p>
                 <p>
-                  {
-                    'יש כאן 48 שאלות קצרות של כן /לא,  ובסופן מחכות לך המלצות מדויקות לסיוע: השקעה נהדרת בעצמך (אגב: גילינו שלפעמים אפילו עצם המענה על השאלון מרגיע ומקל, בכך שהוא מאפשר מבט פנימה).'
-                  }
+                  <strong>מה עוד כדאי לדעת?</strong><br />
+                  <ul>
+                    <li>
+                      השאלות נוסחו ותוקפו על ידי אנשי מקצוע ומשמשות כבר שנים בדיוק עבור מצבי חיים כאלה.
+                    </li>
+                    <li>
+                      גילינו שלפעמים אפילו עצם המענה על השאלון מרגיע ומקל, בכך שהוא מאפשר מבט פנימה.
+                    </li>
+                    <li>
+                      בכמה מהשאלות יחזור הביטוי "אירוע קשה או טראומטי". אירוע כזה יכול להיות חשיפה למראות קשים, סכנת חיים, פציעה, לחץ – או כל חוויה אחרת שהביאה אותך אלינו.
+                    </li>
+                  </ul>
                 </p>
-                {
-                  'בכמה מהשאלות יחזור הביטוי "אירוע קשה או טראומטי". אירוע כזה יכול להיות חשיפה למראות קשים, סכנת חיים, פציעה, רגעי לחץ בעת השירות – ויכול להיות כל חוויה אחרת שעבורך היא קשה והרגשות שהיא מעוררת בך הביאו אותך אלינו.'
-                }
               </div>
               <StyledTextContainer>
                 <Divider className="margin-top-xl" appearance="brand"/>
                 <ButtonContainer className="flex-row space-between align-center">
                   <StyledButton appearance="primary" size="large" shape="circular" onClick={() => onNextClicked(optOut)}
                                 icon={<ChevronLeft24Filled/>} iconPosition="after">
-                    שנתחיל?
+                    {StartButtonText}
                   </StyledButton>
                 </ButtonContainer>
                 <div className="full-width align-text-center">
                     <Checkbox label="אני מאשר/ת איסוף מידע אנונימי לצרכי מחקר ושיפור כלי זה" checked={!optOut}
                               onChange={() => setOptOut(!optOut)}/>
                   </div>
-                <Divider className="margin-bottom-xl" appearance="brand"/>
+                <Divider className="margin-bottom-xl" appearance="brand"/>                
               </StyledTextContainer>
             </div>
           </StickyBottomButtonPage>
         </LeftColumn>
       </Container>
       <Footer>
-        <div className="margin-bottom-xs">הכלי פותח בשיתוף המועצה הלאומית לפוסט-טראומה.
-        </div>
-        <div>פיתוח מקצועי ותוכן: פרופ' אריה שלו, פרופ' שרה פרידמן, ד"ר יעל שובל-צוקרמן. מנהל הפרויקט: צחי זאבי.
-        </div>
+        <div className="margin-bottom-xs">הכלי פותח בשיתוף המועצה הלאומית לפוסט-טראומה.</div>
+        <div>פיתוח מקצועי ותוכן: פרופ' אריה שלו, פרופ' שרה פרידמן, ד"ר יעל שובל-צוקרמן. </div>
+        <div>פיתוח אפליקציה: שקד אברהם.</div>
+        <div>מנהל הפרויקט: צחי זאבי.</div>
       </Footer>
     </div>
   );

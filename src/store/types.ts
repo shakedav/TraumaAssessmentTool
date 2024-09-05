@@ -5,6 +5,7 @@ export type QuestionnairesSummary = ({
   score: number | string;
   didPassThreshold: boolean;
   isDangerousSituation: boolean;
+  isReversed: boolean;
 } & QuestionnaireRange)[];
 
 export type QuestionnaireRange = {

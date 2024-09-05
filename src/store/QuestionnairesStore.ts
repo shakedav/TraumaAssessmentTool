@@ -66,6 +66,7 @@ export class QuestionnairesStore {
           maxThreshold: question.maxThreshold,
           maxScore: question.max,
           minScore: question.min,
+          isReversed: question.isReversed
         };
       case QuestionnaireTypes.DISCRETE_SCALE:
         return {
@@ -73,6 +74,7 @@ export class QuestionnairesStore {
           maxThreshold: question.maxThreshold,     
           maxScore: _.maxBy(question.answers, 'value').value * subQuestionsCount,
           minScore: _.minBy(question.answers, 'value').value * subQuestionsCount,
+          isReversed: question.isReversed
         };
       case QuestionnaireTypes.YES_NO:
         return {
@@ -80,6 +82,7 @@ export class QuestionnairesStore {
           maxThreshold: question.maxThreshold,
           maxScore: question.questions.length,
           minScore: 0,
+          isReversed: question.isReversed
         };
       case QuestionnaireTypes.CONDITION_QUESTIONNAIRE:
         return this.getQuestionnaireRange(question.conditionQuestionnaire);
@@ -89,6 +92,7 @@ export class QuestionnairesStore {
           maxThreshold: 1,
           maxScore: 1,
           minScore: 0,
+          isReversed: question.isReversed
         };
       default:
         return {};

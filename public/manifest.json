@@ -1,6 +1,6 @@
 {
-  "short_name": "Trauma Assessment Tool",
-  "name": "Trauma Assessment Tool",
+  "short_name": "trauma-dev",
+  "name": "trauma-dev",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
